@@ -12,17 +12,16 @@ const StartKey = document.getElementById('start_key');
 
 //文字列配列で問題のリストを用意
 const Q_list = [    
-  // 'Hello World',
-  // 'Good',
-  // 'I love JavaScript',
-  // 'This is MyApp',
-  // 'Welcome',
-  // 'art',
-  // 'beet',
-  // 'cute',
-  // 'die',
-  // 'enderman',
-  // 'foolcool',
+  'hello',
+  'good',
+  'love',
+  'this',
+  'welcome',
+  'art',
+  'beet',
+  'cute',
+  'die',
+  'enderman',
   'qqqqq',
   'wwwww',
 ];
@@ -156,9 +155,9 @@ function finish() {
   //clearInterval関数はカウントタイマーのセットされた変数を引数とし、その繰り返しを終わらせる
   clearInterval(countdown);
   state = false;  //stateをfalseにする(ボタンを押しても何も起こらなくなる)
-  Timer.textContent = 'じかんぎれです';
-  setTimeout(function(){ SubjectD.textContent = ''; },1500);
-  setTimeout(function(){ Subject.textContent = 'しゅうりょう！' }, 1500);  //subjectに文字列をセットし表示させる
+  Timer.textContent = 'じかんぎれ';
+  setTimeout(function(){ SubjectD.textContent = ''; },500);
+  setTimeout(function(){ Subject.textContent = 'しゅうりょう！' }, 500);  //subjectに文字列をセットし表示させる
   setTimeout(function(){ StartKey.textContent = ' SPACEでもういちど '; },3000);
   
 }

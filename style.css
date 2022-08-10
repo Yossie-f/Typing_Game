@@ -14,7 +14,6 @@
   display: inline-block;
   margin: unset;
   padding: unset;
-  /* width: fit-content; */
   color: crimson;
   margin-left: 25%;
 }
@@ -22,8 +21,6 @@
   display: inline-block;
   margin: unset;
   padding: unset;
-  /* width: fit-content; */
-  /* margin-right: 20%; */
 }
 
 #
@@ -44,11 +41,10 @@
 #start_key{
   position: absolute;
   top: 200px;
-  left: 120px;
+  left: 160px;
   z-index: 50;
   background-color: rgb(50, 50, 49);
   color: rgb(255, 232, 80);
-  margin: 20px;
   border-radius: 5px;
 }
 
@@ -91,7 +87,7 @@ td{
 }
 
 /* ホームポジション */
-#a,#s,#d,#f,#j,#k,#l,.semicolon{
+.a,.s,.d,.f,.j,.k,.l,.semicolon{
   background-color: coral;
 }
 
