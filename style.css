@@ -1,0 +1,27 @@
+.question{
+  display: flex;
+}
+.sub_done{
+  display: inline-block;
+  margin: unset;
+  padding: unset;
+  /* width: fit-content; */
+  color: crimson;
+}
+.sub{
+  display: inline-block;
+  margin: unset;
+  padding: unset;
+  /* width: fit-content; */
+}
+.shot_bar{
+  display: flex;
+}
+#shot{
+  width: fit-content;
+  margin: 0 30px 0 0;
+}
+#miss_shot{
+  width: fit-content;
+  margin: 0;
+}

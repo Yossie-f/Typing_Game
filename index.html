@@ -5,15 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Typing Game</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  
-  <h1 id="subject"></h1>
+  <div class="question">
+    <h1 class="sub_done" id="subject_done"></h1>
+    <h1 class="sub" id="subject"></h1>
+  </div>
   <form name="typing" onsubmit="return false">
-    <input type="text" name="input" >
-    <input type="submit" name="btn" value="送信">
+    <input type="hidden" name="input" >
+    <!-- <input type="submit" name="btn" value="送信"> -->
   </form>
-  <p id="timer"></p>
+  <p id="timer">制限時間：</p>
+  <div class="shot_bar">
+    <p id="shot">入力総数：</p>
+    <p id="miss_shot">入力ミス：</p>
+  </div>
+  <h2 id="success_rate"></h2>
+  <h1 id="start_key">スペースキーを押して開始</h1>
   
   <script src="./main.js"></script>
   </body>
