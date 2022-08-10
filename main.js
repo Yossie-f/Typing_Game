@@ -9,6 +9,7 @@ const SuccessRate = document.getElementById('success_rate');
 const StartKey = document.getElementById('start_key');
 
 
+
 //文字列配列で問題のリストを用意
 const Q_list = [    
   // 'Hello World',
@@ -16,12 +17,14 @@ const Q_list = [
   // 'I love JavaScript',
   // 'This is MyApp',
   // 'Welcome',
-  'art',
-  'beet',
-  'cute',
-  'die',
-  'enderman',
-  'foolcool',
+  // 'art',
+  // 'beet',
+  // 'cute',
+  // 'die',
+  // 'enderman',
+  // 'foolcool',
+  'qqqqq',
+  'wwwww',
 ];
 
 let q_select;       //ランダムに選ばれた問題を格納する
@@ -37,6 +40,89 @@ let miss_count;       //入力ミスをカウント
 let state = false;   //
 let countdown;
 
+let key_code;
+
+
+//Gameスタートメソッド
+window.addEventListener('keydown', start);
+function start(event){
+  if(state == true){
+    return;
+  }else if(state == false && event.key === ' '){
+    state = true;
+
+    reset();    //全てのカウントの値と表示をリセット
+    init();     //問題文を初期化
+    console.log('miss_count0=' + miss_count);
+    console.log('shot_count0=' + shot_count);
+
+    /*カウントダウン開始
+    setInterval()の第1引数は繰り返し実行する関数、第2引数は繰り返し実行の待ち時間(1秒)*/
+    countdown = setInterval(function() {
+      Timer.textContent = 'のこりじかん：' + --time ; //タイマーのテキストに制限時間をセットしてデクリメントする
+      if(time <= 0) {
+        finish(); //繰り返しデクリメントの結果timeが0になったらfinish()関数を実行
+      }  
+    }, 1000);  
+  }
+}
+
+
+/*
+問題文を１字ずつ赤色に変更する処理
+キーが押された時に実行
+*/
+
+  window.addEventListener('keydown', push_key);
+  function push_key(e){
+    key_code = e.key;
+    if(!state){
+      return;
+    }
+    console.log('miss_count1=' + miss_count);
+    console.log('shot_count1=' + shot_count);
+
+    shot_count++ ;
+    Shot.textContent = 'できたかず：' + shot_count ;
+    console.log('miss_count2=' + miss_count);
+    console.log('shot_count2=' + shot_count);
+
+    
+
+    if(q_select.charAt(q_index) == key_code){
+      q_index++;
+      Subject.textContent = q_select.slice(q_index);
+      if(q_index > 0){
+        SubjectD.textContent = q_select.substring(0, q_index);
+      }
+    }else {
+      miss_count++ ;
+      MissShot.textContent = 'ミス：' + miss_count ;
+      console.log('miss_count3=' + miss_count);
+      console.log('shot_count3=' + shot_count);
+    }
+    if(shot_count > 0){
+      SuccessRate.textContent = 'せいこうりつ：' + Math.round(100-(miss_count / shot_count * 100)) + '％';
+      console.log('miss_count4=' + miss_count);
+      console.log('shot_count4=' + shot_count);
+    }
+
+    //入力したキーの色変更メソッド
+    document.getElementById(key_code).classList.add("pressing");
+
+    if(q_length - q_index === 0 ){
+      count++;
+      init();   //全部入力したら問題を初期化
+    }
+  }
+
+
+
+function changeColor(){
+  
+}
+
+
 //リセットメソッドを定義
 function reset(){
   time = 10;          //制限時間をセット
@@ -47,30 +133,8 @@ function reset(){
   StartKey.textContent = '';      //スペースキーを押せの表示を消す
 }
 
-//Gameスタートメソッド
-window.addEventListener('keydown', start);
-function start(event){
-  if(state == true){
-    return;
-  }else if(state == false && event.key === ' '){
-    state = true;
-    
 
-    reset();    //カウントの値や表示をリセット
-    init();     //初期化実行
-
-    //定数countdownにタイマーを設定
-    //setInterval()の第1引数は繰り返し実行する関数、第2引数は繰り返し実行の待ち時間(1秒)
-    countdown = setInterval(function() {
-      Timer.textContent = '制限時間：' + --time + '秒'; //タイマーのテキストに制限時間をセットしてデクリメントする
-      if(time <= 0) {
-        finish(); //繰り返しデクリメントの結果timeが0になったらfinish()関数を実行
-      }  
-    }, 1000);  
-  }
-}
-
-//初期化メソッド
+//問題の初期化
 function init() {
   //問題の選出（ランダム）
   const rnd = Math.floor(Math.random() * Q_list.length);  //0〜4をランダムに生成し代入 //floor関数で切捨て調整
@@ -87,48 +151,15 @@ function init() {
 }
 
 
-/*
-問題を１字ずつ消す処理
-キーが押された時に実行
-*/
-window.addEventListener('keydown', push_key);
-function push_key(e){
-  let key_code = e.key;
-  if(!state){
-    return;
-  }
-  shot_count++ ;
-  Shot.textContent = '入力総数：' + shot_count ;
-
-  if(q_select.charAt(q_index) == key_code){
-    q_index++;
-    Subject.textContent = q_select.slice(q_index);
-    if(q_index > 0){
-      SubjectD.textContent = q_select.substring(0, q_index);
-    }
-  }else{
-    miss_count++ ;
-    MissShot.textContent = '入力ミス：' + miss_count ;
-  }
-  if(shot_count > 0){
-    SuccessRate.textContent = '入力成功率：' + Math.round(100-(miss_count / shot_count * 100)) + '％';
-  }
-    if(q_length - q_index === 0 ){
-    count++;
-    init();
-  }
-}
-
-
 //タイマー終了メソッド
 function finish() {
   //clearInterval関数はカウントタイマーのセットされた変数を引数とし、その繰り返しを終わらせる
   clearInterval(countdown);
   state = false;  //stateをfalseにする(ボタンを押しても何も起こらなくなる)
-  Timer.textContent = '時間切れです';
+  Timer.textContent = 'じかんぎれです';
   setTimeout(function(){ SubjectD.textContent = ''; },1500);
-  setTimeout(function(){ Subject.textContent = '入力できた単語は' + count + '個でした！' }, 1500);  //subjectに文字列をセットし表示させる
-  setTimeout(function(){ StartKey.textContent = 'スペースキーを押して再挑戦'; },3000);
+  setTimeout(function(){ Subject.textContent = 'しゅうりょう！' }, 1500);  //subjectに文字列をセットし表示させる
+  setTimeout(function(){ StartKey.textContent = ' SPACEでもういちど '; },3000);
   
 }
 

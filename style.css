@@ -1,5 +1,14 @@
+.base_container{
+  position: relative;
+  width: 60%;
+  margin: auto;
+}
+
 .question{
   display: flex;
+  width: 100%;
+
+
 }
 .sub_done{
   display: inline-block;
@@ -7,13 +16,19 @@
   padding: unset;
   /* width: fit-content; */
   color: crimson;
+  margin-left: 25%;
 }
 .sub{
   display: inline-block;
   margin: unset;
   padding: unset;
   /* width: fit-content; */
+  /* margin-right: 20%; */
 }
+
+#
+
+
 .shot_bar{
   display: flex;
 }
@@ -24,4 +39,68 @@
 #miss_shot{
   width: fit-content;
   margin: 0;
+}
+
+#start_key{
+  position: absolute;
+  top: 200px;
+  left: 120px;
+  z-index: 50;
+  background-color: rgb(50, 50, 49);
+  color: rgb(255, 232, 80);
+  margin: 20px;
+  border-radius: 5px;
+}
+
+
+table{
+  position: absolute;
+  top: 230px;
+  left: 30px;
+  border: 3px black solid;
+  padding: 10px;
+
+}
+
+tr{
+  display: block;
+  border: solid 1px rgb(178, 176, 176);
+}
+.fst_line{
+  padding-left: 15px;
+}
+.sec_line{
+  padding-left: 30px;
+}
+.trd_line{
+  padding-left: 45px;
+}
+.space_line{
+  padding-left:160px ;
+}
+
+td{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 4px;
+  border: black solid 1px;
+  text-align: center;
+  line-height: 30px;
+  background-color: aquamarine;
+}
+
+/* ホームポジション */
+#a,#s,#d,#f,#j,#k,#l,.semicolon{
+  background-color: coral;
+}
+
+.space{
+  width: 140px;
+}
+
+.pressing {
+  background-color: red;
+  color: white;
+  font-weight: bold;
 }

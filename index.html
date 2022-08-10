@@ -8,22 +8,42 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-  <div class="question">
-    <h1 class="sub_done" id="subject_done"></h1>
-    <h1 class="sub" id="subject"></h1>
+  <div class="base_container">
+    <div class="question">
+      <h1 class="sub_done" id="subject_done"></h1>
+      <h1 class="sub" id="subject"></h1>
+    </div>
+    <form name="typing" onsubmit="return false">
+      <input type="hidden" name="input" >
+      <!-- <input type="submit" name="btn" value="送信"> -->
+    </form>
+    <h3 id="timer">のこりじかん：</h3>
+    <div class="shot_bar">
+      <p id="shot">にゅうりょく：</p>
+      <p id="miss_shot">ミス：</p>
+    </div>
+    <h2 id="success_rate"></h2>
+    <h1 id="start_key">SPACEではじめる </h1>
+
+    <table>
+      <tr class="num_line">
+        <td id="1">1</td><td id="2">2</td><td id="3">3</td><td id="4">4</td><td id="5">5</td><td id="6">6</td><td id="7">7</td><td id="8">8</td><td id="9">9</td><td id="0">0</td><td id="-">-</td><td id="^">^</td>
+        </tr>
+      <tr class="fst_line">
+      <td id="q">Q</td><td id="w">W</td><td id="e">E</td><td id="r">R</td><td id="t">T</td><td id="y">Y</td><td id="u">U</td><td id="i">I</td><td id="o">O</td><td id="p">P</td><td id="@">@</td><td id="[">[</td>
+      </tr>
+      <tr class="sec_line">
+        <td id="a">A</td><td id="s">S</td><td id="d">D</td><td id="f">F</td><td id="g">G</td><td id="h">H</td><td id="j">J</td><td id="k">K</td><td id="l">L</td><td id=";" class="semicolon">;</td><td id=":">:</td><td id="]">]</td>
+      </tr>
+      <tr class="trd_line">
+        <td id="z">Z</td><td id="x">X</td><td id="c">C</td><td id="v">V</td><td id="b">B</td><td id="n">N</td><td id="m">M</td><td id=",">,</td><td id=".">.</td><td id="/">/</td>
+      </tr>
+      <tr class="space_line">
+        <td id=" " class="space">SPACE</td>
+      </tr>
+    </table>
   </div>
-  <form name="typing" onsubmit="return false">
-    <input type="hidden" name="input" >
-    <!-- <input type="submit" name="btn" value="送信"> -->
-  </form>
-  <p id="timer">制限時間：</p>
-  <div class="shot_bar">
-    <p id="shot">入力総数：</p>
-    <p id="miss_shot">入力ミス：</p>
-  </div>
-  <h2 id="success_rate"></h2>
-  <h1 id="start_key">スペースキーを押して開始</h1>
   
   <script src="./main.js"></script>
-  </body>
-  </html>
+</body>
+</html>
