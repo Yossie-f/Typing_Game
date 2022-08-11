@@ -39,7 +39,6 @@ let miss_count;       //入力ミスをカウント
 let state = false;   //
 let countdown;
 
-let key_code;
 
 
 //Gameスタートメソッド
@@ -74,7 +73,7 @@ function start(event){
 
   window.addEventListener('keydown', push_key);
   function push_key(e){
-    key_code = e.key;
+    let key_code = e.key.toLowerCase();
     if(!state){
       return;
     }
@@ -82,7 +81,7 @@ function start(event){
     console.log('shot_count1=' + shot_count);
 
     shot_count++ ;
-    Shot.textContent = 'できたかず：' + shot_count ;
+    Shot.textContent = 'にゅうりょく：' + shot_count ;
     console.log('miss_count2=' + miss_count);
     console.log('shot_count2=' + shot_count);
 
@@ -105,10 +104,6 @@ function start(event){
       console.log('miss_count4=' + miss_count);
       console.log('shot_count4=' + shot_count);
     }
-
-    //入力したキーの色変更メソッド
-    document.getElementById(key_code).classList.add("pressing");
-
     if(q_length - q_index === 0 ){
       count++;
       init();   //全部入力したら問題を初期化
@@ -116,10 +111,17 @@ function start(event){
   }
 
 
-
-function changeColor(){
-  
-}
+//入力したキーの色変更メソッド
+// キーを押すと色が変わる
+window.addEventListener('keydown', e => {
+    let key_code = e.key.toLowerCase();
+    document.getElementById(key_code).classList.add("pressing");
+});
+//キーを離すと色が戻る
+window.addEventListener('keyup', e => {
+    let key_code = e.key.toLowerCase();
+    document.getElementById(key_code).classList.remove("pressing");
+});
 
 
 //リセットメソッドを定義
