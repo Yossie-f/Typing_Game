@@ -1,13 +1,28 @@
+/* ベース */
 .base_container{
   position: relative;
   width: 60%;
+  height: fit-content;
   margin: auto;
+  padding: 50px;
+  align-items: center;
+  align-content: center;
+  border: solid black 1px;
+  border-radius: 10px;
+  background-color: antiquewhite;
 }
 
+/* 問題文の表示 */
 .question{
-  display: flex;
-  width: 100%;
-
+  width: fit-content;
+  height: fit-content;
+  align-content: center;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+.question h1{
+  font-size: 50px;
 
 }
 .sub_done{
@@ -15,7 +30,7 @@
   margin: unset;
   padding: unset;
   color: crimson;
-  margin-left: 25%;
+
 }
 .sub{
   display: inline-block;
@@ -24,39 +39,81 @@
 }
 
 
+/* タイムの表示 */
+.TIME{
+  width: fit-content;
+  margin: auto;
+}
+#timer{
+  width: fit-content;
+  margin: auto;
+}
 
+
+/* 入力に関する表示 */
 .shot_bar{
-  display: flex;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: fit-content;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 #shot{
-  width: fit-content;
-  margin: 0 30px 0 0;
+  /* display: inline-block; */
+  width: 160px;
+  margin: 0 0 0 20px ;
+  text-align: justify;
+}
+#consecutive_success{
+  /* display: inline-block; */
+  width: 160px;
+  margin: 0 0 0 20px ;
 }
 #miss_shot{
-  width: fit-content;
-  margin: 0;
+  /* display: inline-block; */
+  width: 160px;
+  margin: 0 0 0 20px;
+}
+#max-success{
+  width: 160px;
+  margin: 0 0 0 20px;
+}
+#success_rate{
+  width: 160px;
+  margin: 0 0 0 20px;
 }
 
+
+/* キーボードのコンテナ */
+.keyboard{
+  position: relative;
+  margin-top: 32px;
+}
+/* スタートの表示 */
 #start_key{
   position: absolute;
-  top: 200px;
-  left: 160px;
+  top: -14%;
+  left:25%;
+  width: 50%;
   z-index: 50;
+  margin: auto;
+  text-align: center;
   background-color: rgb(50, 50, 49);
   color: rgb(255, 232, 80);
   border-radius: 5px;
 }
 
-
+/* キーボード */
 table{
-  position: absolute;
-  top: 230px;
-  left: 30px;
+  /* position: absolute; */
+  margin: auto;
+  width: fit-content;
   border: 3px black solid;
-  padding: 10px;
-
+  padding: 10px 20px;
+  background-color: rgb(255, 255, 255);
 }
-
 tr{
   display: block;
   border: solid 1px rgb(178, 176, 176);
@@ -73,7 +130,6 @@ tr{
 .space_line{
   padding-left:160px ;
 }
-
 td{
   display: inline-block;
   width: 30px;
@@ -84,18 +140,25 @@ td{
   line-height: 30px;
   background-color: aquamarine;
 }
-
-/* ホームポジション */
-.a,.s,.d,.f,.j,.k,.l,.semicolon{
-  background-color: coral;
-}
-
 .space{
   width: 140px;
 }
 
+/* ホームポジション */
+.a,.s,.d,.f,.j,.k,.l,.semicolon{
+  background-color: rgb(246, 255, 80);
+}
+
+/* 押したキーの色 */
 .pressing {
-  background-color: red;
+  background-color: crimson;
   color: white;
   font-weight: bold;
 }
+/* 次に押すべきキーの色 */
+.push_me {
+  background-color: rgb(0, 136, 255);
+  color: white;
+  font-weight: bold;
+}
+
