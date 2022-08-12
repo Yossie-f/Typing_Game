@@ -21,6 +21,10 @@
   margin: auto;
   text-align: center;
 }
+#kana{
+  width: fit-content;
+  margin: 0 auto;
+}
 .question h1{
   font-size: 50px;
 

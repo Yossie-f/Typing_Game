@@ -1,3 +1,4 @@
+const Kana = document.getElementById('kana');
 const Subject = document.getElementById('subject');    //タグのidからノードを取得し、定数に代入する('Subject');   
 const SubjectD = document.getElementById('subject_done');  //問題や判定を表示させる <h1>のノード
 const Timer = document.getElementById('timer');  //制限時間を表示させる <p>のノード
@@ -12,18 +13,17 @@ const StartKey = document.getElementById('start_key');
 
 //文字列配列で問題のリストを用意
 const Q_list = [    
-  'hello',
-  'good',
-  'love',
-  'this',
-  'welcome',
-  'art',
-  'beet',
-  'cute',
-  'die',
-  'enderman',
-  'qqqqq',
-  'wwwww',
+  'kuroooari',
+  'kendama',
+  'samuraiari',
+  'rakko',
+  'shachi',
+  'keitaidenwa',
+  'ameiroari',
+  'akayamaari',
+  'amimeari',
+  'kuroooari',
+  'muneakaooari',
 ];
 
 let q_select;       //ランダムに選ばれた問題を格納する
@@ -37,19 +37,20 @@ let miss_count;     //入力ミスをカウント
 let consecutive_success;  //連続入力成功数
 let max_success;
 
-/*ボタンのクリックイベントの可不可を制御するための変数
-true で*/
-let state = false;   
+let game_state = false;   //Game全体のステート
+let state = false;    //入力判定の実行可否のステート
 let countdown;
+let msct = 0; //nで間違えた時の判定用カウント
 
 
 
 //Gameスタートメソッド
 window.addEventListener('keydown', start);
 function start(event){
-  if(state == true){
+  if(state == true || game_state == true) {
     return;
   }else if(state == false && event.key === ' '){
+    game_state = true;
     state = true;
 
     reset();    //全てのカウントの値と表示をリセット
@@ -69,74 +70,70 @@ function start(event){
 }
 
 
-/* 問題文を１字ずつ赤色に変更する処理
-キーが押された時に実行 */
-  window.addEventListener('keydown', push_key);
-  function push_key(e){
-    let key_code = e.key.toLowerCase();
-    if(!state){
-      return;
-    }
-    console.log('miss_count1=' + miss_count);
-    console.log('shot_count1=' + shot_count);
-
-    shot_count++ ;
-    Shot.textContent = '入力総数：' + shot_count ;
-    console.log('miss_count2=' + miss_count);
-    console.log('shot_count2=' + shot_count);
-
-    //押したキーがあっていれば実行
-    if(q_select.charAt(q_index) == key_code){
-      //キーボードの色を戻す
-      document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
-      q_index++;
-      consecutive_success++;
-      ConsecutiveSuccess.textContent = '連続成功数：' + consecutive_success ;
-      if(max_success < consecutive_success){
-        max_success = consecutive_success;
-      }
-      //押した文字より後ろの文字列だけ切り出して表示
-      Subject.textContent = q_select.slice(q_index);
-      if(q_index > 0){
-        //押した文字はdone側で表示させる(cssで色を変える) 
-        SubjectD.textContent = q_select.substring(0, q_index);
-      }
-    //押したキーが間違っていた場合
-    }else {
-      miss_count++ ;
-      MissShot.textContent = '入力ミス数：' + miss_count ;
-      console.log('miss_count3=' + miss_count);
-      console.log('shot_count3=' + shot_count);
-      //最大連続成功数を更新する
-      if(max_success < consecutive_success){
-        max_success = consecutive_success;
-      }
-      //連続入力成功数を０にする
-      consecutive_success = 0;  
-      ConsecutiveSuccess.textContent = '連続成功数：' + consecutive_success ;
-    }
-    //入力を始めたら成功率を表示させる
-    if(shot_count > 0){
-      SuccessRate.textContent = '成功率：' + Math.round(100-(miss_count / shot_count * 100)) + '％';
-      console.log('miss_count4=' + miss_count);
-      console.log('shot_count4=' + shot_count);
-    }
-    //単語を全部入力したら問題を初期化する
-    if(q_length - q_index === 0 ){
-      count++;
-      init();   
-    }else{
-      // 次に押すべきキーの色を変える
-      document.getElementById(q_select.charAt(q_index)).classList.add("push_me");
-    }
+/* キーが押された時に毎回実行 */
+window.addEventListener('keydown', push_key);
+function push_key(e){
+  let key_code = e.key.toLowerCase();
+  if(!state){
+    return;
   }
+  console.log('miss_count1=' + miss_count);
+  console.log('shot_count1=' + shot_count);
+
+  shot_count++ ;
+  Shot.textContent = '入力総数：' + shot_count ;
+  console.log('miss_count2=' + miss_count);
+  console.log('shot_count2=' + shot_count);
+
+  //押したキーがあっていれば実行
+  if(q_select.charAt(q_index) == key_code){
+    //キーボードの色を戻す
+    document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
+    q_index++;
+    consecutive_success++;
+    ConsecutiveSuccess.textContent = '連続成功数：' + consecutive_success ;
+    if(max_success < consecutive_success){
+      max_success = consecutive_success;
+    }
+    //押した文字より後ろの文字列だけ切り出して表示
+    Subject.textContent = q_select.slice(q_index);
+    if(q_index > 0){
+      //押した文字はdone側で表示させる(cssで色を変える) 
+      SubjectD.textContent = q_select.substring(0, q_index);
+    }
+  //押したキーが間違っていた場合
+  // }else {
+  //   if(key_code == 'n' && msct < 1){
+  //     if(q_select[q_index]){
+
+  //     }
+  }else {
+    miss();
+  }
+
+  //入力を始めたら成功率を表示させる
+  if(shot_count > 0){
+    SuccessRate.textContent = '成功率：' + Math.round(100-(miss_count / shot_count * 100)) + '％';
+    console.log('miss_count4=' + miss_count);
+    console.log('shot_count4=' + shot_count);
+  }
+  //単語を全部入力したら問題を初期化する
+  if(q_length - q_index === 0 ){
+    count++;
+    init();   
+  }else{
+    // 次に押すべきキーの色を変える
+    document.getElementById(q_select.charAt(q_index)).classList.add("push_me");
+  }
+}
 
 
 //入力したキーの色変更メソッド
 // キーを押すと色が変わる
 window.addEventListener('keydown', e => {
     let key_code = e.key.toLowerCase();
-    if(document.getElementById(key_code) != null){
+    //押したキーの値がHTMLのidに存在しない(nullの)場合は実行しない
+    if(document.getElementById(key_code) != null){  
       document.getElementById(key_code).classList.add("pressing");
     }
 });
@@ -157,7 +154,8 @@ function reset(){
   miss_count = -1;    //ミス入力数を０に
   consecutive_success = 0;
   max_success = 0;
-  SuccessRate.textContent = '';   //入力成功率の表示を消す
+  MaxSuccess.textContent = '最高連続成功：';
+  SuccessRate.textContent = '成功率：';   //入力成功率の表示を消す
   StartKey.textContent = '';      //スペースキーを押せの表示を消す
 }
 
@@ -172,7 +170,9 @@ function init() {
   //<h1>のテキスト要素に問題をセット
   Subject.textContent = q_select;  //問題リスト配列の要素番号にランダム整数を指定して呼び出し
 
+  Kana.textContent = r2h(q_select);
 
+  // 次に押すキーの色を変える
   document.getElementById(q_select.charAt(q_index)).classList.add("push_me");
   SubjectD.textContent = '';
   //フォーカスを入力欄にセット
@@ -189,13 +189,39 @@ function finish() {
   state = false;  //stateをfalseにする(ボタンを押しても何も起こらなくなる)
   Timer.textContent = 'タイムアップ!!';
   //subjectに文字列をセットし表示させる
+  setTimeout(function(){Kana.textContent = 'おわり！'; }, 500);
   setTimeout(function(){ SubjectD.textContent = ''; },500);
   setTimeout(function(){ Subject.textContent = '終わり！' }, 500);  
-  setTimeout(function(){ MaxSuccess.textContent = '最大成功数：' + max_success});
+  setTimeout(function(){ MaxSuccess.textContent = '最高連続成功：' + max_success});
   setTimeout(function(){ StartKey.textContent = ' SPACEでもういちど '; },3000);
+  //game_stateをfalseにすることで再びスタートメソッドが実行できる
+  setTimeout(function(){ game_state = false},3000);
   //次に入力しないといけないキーボードの色を戻す
   document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
+}
 
+function boinJudge(char){
+  let boin = ['a','i','u','e','o']
+  for(var x in boin){
+    if(char == x){
+      return true;
+    }
+  }
+  return false;
+}
+
+function miss(){
+  miss_count++ ;
+  MissShot.textContent = '入力ミス数：' + miss_count ;
+  console.log('miss_count3=' + miss_count);
+  console.log('shot_count3=' + shot_count);
+  //最大連続成功数を更新する
+  if(max_success < consecutive_success){
+    max_success = consecutive_success;
+  }
+  //連続入力成功数を０にする
+  consecutive_success = 0;  
+  ConsecutiveSuccess.textContent = '連続成功数：' + consecutive_success ;
 }
 
 
