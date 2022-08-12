@@ -126,6 +126,7 @@ function start(event){
       count++;
       init();   
     }else{
+      // 次に押すべきキーの色を変える
       document.getElementById(q_select.charAt(q_index)).classList.add("push_me");
     }
   }
@@ -135,12 +136,16 @@ function start(event){
 // キーを押すと色が変わる
 window.addEventListener('keydown', e => {
     let key_code = e.key.toLowerCase();
-    document.getElementById(key_code).classList.add("pressing");
+    if(document.getElementById(key_code) != null){
+      document.getElementById(key_code).classList.add("pressing");
+    }
 });
 //キーを離すと色が戻る
 window.addEventListener('keyup', e => {
     let key_code = e.key.toLowerCase();
-    document.getElementById(key_code).classList.remove("pressing");
+    if(document.getElementById(key_code) != null){
+      document.getElementById(key_code).classList.remove("pressing");
+    }
 });
 
 
