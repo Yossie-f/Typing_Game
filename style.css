@@ -3,11 +3,12 @@
   position: relative;
   width: 60%;
   height: fit-content;
+  background: url("./background.png") bottom / cover;
   margin: auto;
-  padding: 50px;
+  padding: 80px 50px;
   align-items: center;
   align-content: center;
-  border: solid black 1px;
+  border: solid rgb(255, 174, 0) 5px;
   border-radius: 10px;
   background-color: antiquewhite;
 }
@@ -24,22 +25,24 @@
 #kana{
   width: fit-content;
   margin: 0 auto;
+  color: snow;
 }
 .question h1{
-  font-size: 50px;
+  font-size: 40px;
 
 }
 .sub_done{
   display: inline-block;
   margin: unset;
   padding: unset;
-  color: crimson;
+  color: rgb(0, 128, 255);
 
 }
 .sub{
   display: inline-block;
   margin: unset;
   padding: unset;
+  color: yellow;
 }
 
 
@@ -47,22 +50,26 @@
 .TIME{
   width: fit-content;
   margin: auto;
+  color: gray;
 }
 #timer{
   width: fit-content;
   margin: auto;
+  color: yellow;
 }
 
 
 /* 入力に関する表示 */
 .shot_bar{
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 20px;
+  left: 20px;
   width: fit-content;
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
+  background-color: snow;
+  font-weight: bold;
 }
 #shot{
   /* display: inline-block; */
@@ -90,6 +97,73 @@
 }
 
 
+
+
+/* ランク結果の表示 */
+.rank_body{
+  position: absolute;
+  width: 72%;
+  height: 95%;
+  top: 10px;
+  right: 10px;
+  border: 3px solid blue;
+  border-radius: 30px;
+  z-index: 40;
+  background-color: white;
+  overflow: hidden;
+  transition: all 1s;
+  opacity: 0;
+}
+.appear{
+  opacity: 1;;
+}
+
+#image{
+  background: url("./image/azumaoozuari.jpg") bottom / contain;
+  width: 100%;
+  height: 80%;
+  z-index: 40;
+}
+.next_btn{
+  position: absolute;
+  top: 1%;
+  left: 25%;
+  width: 50%;
+  margin: 0;
+  text-align: center;
+  background-color: black;
+  color: yellow;
+  border-radius: 10px;
+  transition: all 3s;
+}
+.rank{
+  position: absolute;
+  bottom: -4%;
+  width: 101%;
+  left: -2%;
+  padding: 0 20px;
+  background-color: snow;
+  border: 3px solid blue;
+  z-index: 45;
+}
+.rank h3{
+  margin: 5px 0 0 10px;
+}
+.rank_name_c{
+  text-align: center;
+  color: blue;
+  transition: all 2s;
+  font-size: 50px;
+  margin: 0;
+}
+.rank_data_c{
+  text-align: center;
+  color: blue;
+  transition: all 2s;
+}
+
+
+
 /* キーボードのコンテナ */
 .keyboard{
   position: relative;
@@ -101,14 +175,13 @@
   top: -14%;
   left:25%;
   width: 50%;
-  z-index: 50;
+  z-index: 30;
   margin: auto;
   text-align: center;
   background-color: rgb(50, 50, 49);
   color: rgb(255, 232, 80);
   border-radius: 5px;
 }
-
 /* キーボード */
 table{
   /* position: absolute; */
@@ -143,6 +216,7 @@ td{
   text-align: center;
   line-height: 30px;
   background-color: aquamarine;
+  box-shadow: 0px 0.15em 0 rgb(99, 205, 169);
 }
 .space{
   width: 140px;
@@ -158,11 +232,22 @@ td{
   background-color: crimson;
   color: white;
   font-weight: bold;
+  transform: translate3d(0, 0.15em, 0);
+  box-shadow: none;
+}
+.sc_pressing {
+  background-color: goldenrod;
+  color: black;
+  font-weight: bold;
+  transform: translate3d(0, 0.15em, 0);
+  box-shadow: none;
 }
 /* 次に押すべきキーの色 */
 .push_me {
   background-color: rgb(0, 136, 255);
   color: white;
   font-weight: bold;
+  -webkit-filter: drop-shadow(0px 3px 10px rgba(73, 141, 252, 0.8));
+    filter: drop-shadow(0px 0px 10px rgba(73, 141, 252, 0.8));
 }
 

@@ -11,14 +11,14 @@
 <body>
   <div class="base_container">
     <div class="question">
-      <h2 id="kana"></h2>
-      <h1 class="sub_done" id="subject_done">もんだい</h1>
+      <h2 id="kana">準備OK?</h2>
+      <h1 class="sub_done" id="subject_done">ここに問題が出るよ</h1>
       <h1 class="sub" id="subject"></h1>
     </div>
-    <form name="typing" onsubmit="return false">
+    <!-- <form name="typing" onsubmit="return false">
       <input type="hidden" name="input" >
-      <!-- <input type="submit" name="btn" value="送信"> -->
-    </form>
+      <input type="submit" name="btn" value="送信">
+    </form> -->
     <h3 class="TIME">TIME</h3>
     <h2 id="timer">00</h2>
     <div class="shot_bar">
@@ -27,6 +27,16 @@
       <p id="miss_shot">入力ミス数：</p>
       <p id="max-success">最高連続成功：</p>
       <p id="success_rate">成功率：</p>
+    </div>
+
+    <div id="rank_container" class="rank_body">
+      <div id="image"></div>
+      <h2 id="next" class="next_btn">SPACEで再チャレンジ</h2>
+      <div class="rank">
+        <h3>あなたのタイピングは</h3>
+        <h1 id="rank_name" class="rank_name_c"></h1>
+        <h2 id="rank_data" class="rank_data_c"></h2>
+      </div>
     </div>
 
     <div class="keyboard">
