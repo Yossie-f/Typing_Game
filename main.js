@@ -10,7 +10,7 @@ const MaxSuccess = document.getElementById('max-success'); //最大連続成功�
 const StartKey = document.getElementById('start_key');  //スタートの表示
 
 const RankContainer = document.getElementById('rank_container');  //ランク判定
-const Image = document.getElementById('image'); //ランク判定の背景画像
+const rankImage = document.querySelector('#image'); //ランク判定の背景画像
 const Next = document.getElementById('next'); //次に進む処理
 const RankName = document.getElementById('rank_name');  //判定ランク名
 const RankData = document.getElementById('rank_data');  //ランク関連情報
@@ -43,7 +43,9 @@ let miss_count;     //入力ミスをカウント
 let consecutive_success;  //連続入力成功数
 let max_success = 0;
 let success_rate;
-let accuracy_rank;
+let accuracy_rank;  
+let ave;          //1分間入力文字数
+
 
 let game_state = false;   //Game全体のステート(タイムアップ〜再開可能までの間をとるために設定している)
 let state = false;    //入力判定の実行可否のステート
@@ -219,28 +221,30 @@ function miss(){
 }
 
 
-//タイマー終了メソッド
+//終了判定メソッド
 function finish() {
   //clearInterval関数はカウントタイマーのセットされた変数を引数とし、その繰り返しを終わらせる
   // clearInterval(countdown);
   state = false;  //stateをfalseにする(ボタンを押しても何も起こらなくなる)
   Timer.textContent = 'タイムアップ!!';
   MaxSuccess.textContent = '最高連続成功：' + max_success;
+  //次に入力しないといけないキーボードの色を戻す
+  document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
   
-  let speed_rank;
+  let speed_rank;   //ランク判定格納用
   speed_rank = rankJudge(shot_count, miss_count, set_time);
+  rankImage.style.backgroundImage = 'url(./rank_image/' + speed_rank[0] + '.jpg)';
+  document.getElementById('average').textContent = 'あなたのタイピングは1分間で ' + ave + ' 文字';
+  RankName.textContent = r2h(speed_rank[0]) + ' ' + '級です';
+  RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
   
   //subjectに文字列をセットし表示させる
   setTimeout(function(){Kana.textContent = '判定します・・・'; }, 1000);
   //ランク判定を表示させる
   setTimeout(function(){RankContainer.classList.add("appear");}, 2000);
-  RankName.textContent = speed_rank[0] + ' ' + '級';
-  RankData.textContent = speed_rank[0] + 'の' + speed_rank[1];
-  StartKey.textContent = ' SPACEでもういちど';
+  // StartKey.textContent = ' SPACEでもういちど';
   //game_stateをfalseにすることで再びスタートメソッドが実行できる
   setTimeout(function(){ game_state = false},3500);
-  //次に入力しないといけないキーボードの色を戻す
-  document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
 }
 
 //母音か判定するメソッド
@@ -257,54 +261,54 @@ function boinJudge(char){
 
 
 function rankJudge(sht, ms, stm){
-  let ave = (sht - ms) / stm * 60 * (success_rate/100);
+  ave = Math.round((sht - ms) / stm * 60 * (success_rate/100));
   let spd;
   if(ave >= 400){
-    spd = ['グンカンドリ', '滑空速度：400km']
+    spd = ['gunkandori', '滑空速度：400km']
   }else if(ave >= 320){
-    spd = ['アマツバメ', '滑空速度：320km']
+    spd = ['amatubame', '滑空速度：320km']
   }else if(ave >= 300){
-    spd = ['ハヤブサ', '滑空速度：300km']
+    spd = ['hayabusa', '滑空速度：300km']
   }else if(ave >= 250){
-    spd = ['クマタカ', '滑空速度：250km']
+    spd = ['kumataka', '滑空速度：250km']
   }else if(ave >= 240){
-    spd = ['イヌワシ', '滑空速度：240km']
+    spd = ['inuwashi', '滑空速度：240km']
   }else if(ave >= 200){
-    spd = ['メキシコオヒキコウモリ', '最高速度：160km']
+    spd = ['mekishikooohikikoumori', '最高速度：160km']
   }else if(ave >= 180){
-    spd = ['チーター', '最高速度：120km']
+    spd = ['chi-ta-', '最高速度：120km']
   }else if(ave >= 150){
-    spd = ['スプリングボック', '最高速度：100km']
+    spd = ['supuringubokku', '最高速度：100km']
   }else if(ave >= 130){
-    spd = ['クォーターホース', '最高速度：88km']
+    spd = ['kulo-ta-ho-su', '最高速度：88km']
   }else if(ave >= 110){
-    spd = ['ライオン', '最高速度：80km']
+    spd = ['raionn', '最高速度：80km']
   }else if(ave >= 100){
-    spd = ['ジャックウサギ', '最高速度：72km']
+    spd = ['jakkuusagi', '最高速度：72km']
   }else if(ave >= 90){
-    spd = ['ダチョウ', '走る速さ：70km']
+    spd = ['dachou', '走る速さ：70km']
   }else if(ave >= 75){
-    spd = ['トムソンガゼル', '走る速さ：68km'] 
+    spd = ['tomusongazeru', '走る速さ：68km'] 
   }else if(ave >= 70){
-    spd = ['ラクダ', '走る速さ：65km']
+    spd = ['rakuda', '走る速さ：65km']
   }else if(ave >= 65){
-    spd = ['トラ', '走る速さ：60km']
+    spd = ['tora', '走る速さ：60km']
   }else if(ave >= 60){
-    spd = ['グリズリー', '走る速さ：56km']
+    spd = ['gurizuri-', '走る速さ：56km']
   }else if(ave >= 55){
-    spd = ['キリン', '走る速さ：51km']
+    spd = ['kirinn', '走る速さ：51km']
   }else if(ave >= 50){
-    spd = ['アフリカゾウ', '走る速さ：40km']
+    spd = ['afurikazou', '走る速さ：40km']
   }else if(ave >= 45){
-    spd = ['ブラックマンバ', '走る速さ：25km']
+    spd = ['burakkumanba', '走る速さ：25km']
   }else if(ave >= 35){
-    spd = ['スズメバチ', '飛ぶ速さ：22km']
+    spd = ['suzumebachi', '飛ぶ速さ：22km']
   }else if(ave >= 25){
-    spd = ['ニワトリ', '走る速さ：14km']
+    spd = ['niwatori', '走る速さ：14km']
   }else if(ave >= 15){
-    spd = ['ジェンツーペンギン', '歩く速さ：10km']
+    spd = ['jentu-penginn', '歩く速さ：10km']
   }else{
-    spd = ['ハンミョウ', '走る速さ：8km']
+    spd = ['hanmyou', '走る速さ：8km']
   }
   return spd;
 }

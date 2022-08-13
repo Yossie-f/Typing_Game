@@ -104,9 +104,9 @@
   position: absolute;
   width: 72%;
   height: 95%;
-  top: 10px;
+  top: 6px;
   right: 10px;
-  border: 3px solid blue;
+  border: 10px solid blue;
   border-radius: 30px;
   z-index: 40;
   background-color: white;
@@ -119,14 +119,14 @@
 }
 
 #image{
-  background: url("./image/azumaoozuari.jpg") bottom / contain;
+  background: url("./image/azumaoozuari.jpg") top / contain;
   width: 100%;
   height: 80%;
   z-index: 40;
 }
 .next_btn{
   position: absolute;
-  top: 1%;
+  top: 0%;
   left: 25%;
   width: 50%;
   margin: 0;
@@ -135,6 +135,15 @@
   color: yellow;
   border-radius: 10px;
   transition: all 3s;
+  animation: flash 1.0s linear infinite;
+}
+@keyframes flash {
+  0%,100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 .rank{
   position: absolute;
