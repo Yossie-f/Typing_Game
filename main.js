@@ -1,12 +1,15 @@
 const Kana = document.getElementById('kana');//カナ
 const Subject = document.getElementById('subject'); //問題(入力前)
 const SubjectD = document.getElementById('subject_done'); //問題(入力済み)
+const ImageContainer = document.getElementById('image_container');
 const Timer = document.getElementById('timer');  //制限時間
 const Shot = document.getElementById('shot'); //総入力数
 const MissShot = document.getElementById('miss_shot');//ミス入力数
 const ConsecutiveSuccess = document.getElementById('consecutive_success'); //連続入力成功数
 const SuccessRate = document.getElementById('success_rate'); //成功率
 const MaxSuccess = document.getElementById('max-success'); //最大連続成功数
+const Mode = document.getElementById('mode'); //入力モード
+const TimeSet = document.getElementById('time_set');
 const StartKey = document.getElementById('start_key');  //スタートの表示
 
 const RankContainer = document.getElementById('rank_container');  //ランク判定
@@ -19,24 +22,25 @@ const RankData = document.getElementById('rank_data');  //ランク関連情報
 
 //文字列配列で問題のリストを用意
 const Q_list = [    
-  'kuroooari',
-  'kendama',
-  'samuraiari',
-  'rakko',
-  'shachi',
-  'keitaidenwa',
-  'ameiroari',
-  'akayamaari',
-  'amimeari',
-  'kuroooari',
-  'muneakaooari',
+  // 'kendama',
+  // 'samuraiari',
+  // 'azumaoozuari',
+  // 'shachi',
+  // 'keitaidenwa',
+  // 'ameiroari',
+  // 'akayamaari',
+  // 'amimeari',
+  // 'kuroooari',
+  // 'muneakaooari',
+  'hanrann',
+  // 'chi-ta-',
 ];
 
 let q_select;       //ランダムに選ばれた問題を格納する
 let q_length = 0;   //選ばれた問題の文字数
 let q_index;    //入力している問題文の文字位置を表す
 
-let set_time = 10;  //制限時間
+let set_time = 20;  //制限時間
 let count = 0;      //単語の正解数をカウント
 let shot_count;     //総入力数
 let miss_count;     //入力ミスをカウント
@@ -50,12 +54,12 @@ let ave;          //1分間入力文字数
 let game_state = false;   //Game全体のステート(タイムアップ〜再開可能までの間をとるために設定している)
 let state = false;    //入力判定の実行可否のステート
 let p_state = false;  //キープッシュ状態のステート 押したらtrue
+let char_state = true;  //大文字か小文字の状態 trueで大文字
 let countdown;
 let msct = 0; //nで間違えた時の判定用カウント
 
 
-
-
+TimeSet.focus();
 //Gameスタートメソッド
 window.addEventListener('keydown', start);
 function start(event){
@@ -65,7 +69,8 @@ function start(event){
   }else if(state == false && event.key === ' '){
     game_state = true;
     reset();    //全てのカウントの値と表示をリセット
-    let time = set_time //デクリメント用の制限時間を用意
+    set_time = TimeSet.value;
+    let time = set_time //デクリメント用に制限時間をコピー
 
     //カウント用非同期メソッド
     function countDown(sec, CD) {
@@ -90,10 +95,11 @@ function start(event){
       Timer.textContent = 'スタート！！';
       init();     //問題文を初期化
       state = true;
+      await new Promise(resolve => setTimeout(resolve, 500));
       await countDown(time, countdown); //スタート〜終了までのカウント
+      Timer.textContent = 'タイムアップ!!';
       finish();   //終了メソッド実行
       }  
-
       //タイム管理の非同期処理を実行
       timeManage(); 
     };
@@ -103,11 +109,22 @@ function start(event){
 /* キーが押された時に毎回実行 */
 window.addEventListener('keydown', push_key);
 function push_key(e){
+  //escが押されたらモード切り替え
+  if(e.key ==='Shift'){
+    char_state = !char_state;
+    if(char_state == true){
+      Mode.textContent = '大文字モード';
+      Mode.style.backgroundColor = "rgb(71, 200, 49)";
+    }else{
+      Mode.textContent = '小文字モード';
+      Mode.style.backgroundColor = "rgb(49, 132, 200)";
+    }
+  }
   let key_code = e.key.toLowerCase();
-  if(!state && !p_state){
+  if(!state || e.key === 'Shift'){
     return;
   } 
-  //stateがtrueかつp_stateがtrueの時に以下が実行される
+  //stateがtrueかつp_stateがfalseの時に以下が実行される
   shot_count++ ;
   Shot.textContent = '入力総数：' + shot_count ;
 
@@ -124,25 +141,38 @@ function push_key(e){
       max_success = consecutive_success;
     }
     //押した文字より後ろの文字列だけ切り出して表示
-    Subject.textContent = q_select.slice(q_index);
+    let sub = q_select.slice(q_index);
+    Subject.textContent = char_state == true ? sub.toUpperCase() : sub;
     if(q_index > 0){
       //押した文字はdone側で表示させる(cssで色を変える) 
-      SubjectD.textContent = q_select.substring(0, q_index);
+      let subD = q_select.substring(0, q_index);
+      SubjectD.textContent = char_state == true ? subD.toUpperCase() : subD;
     }
-    p_state = true;
-
+    msct = 0;
+    // p_state = true;
+  
+  
   //押したキーが間違っていた場合
-  // }else {
-  //   if(key_code == 'n' && msct < 1){
-  //     if(q_select[q_index]){
-
-  //     }
   }else {
-    if(document.getElementById(key_code) != null){ 
-      document.getElementById(key_code).classList.add("pressing");
+    //押したキーがn & msctが0以下 & 正解のキーが母音やyでない場合
+    if(q_index != 0 && key_code == 'n' && msct <= 0 && !nJudge(q_select[q_index])){
+      //前のキーがnの場合ミスカウントしない
+      if( q_select[q_index-1] == 'n'){
+        msct++;
+        //問題文にnを追加して表示させる
+        let a = q_select.slice(0, q_index);
+        let b = q_select.slice(q_index);
+        q_select = a + 'n' + b;
+        q_index++; 
+        q_length++;
+        let subD = q_select.substring(0, q_index);
+        SubjectD.textContent = char_state == true ? subD.toUpperCase() : subD;
+      }else{
+        miss(key_code);
+      }
+    }else{
+      miss(key_code);
     }
-    miss();
-    p_state = true;
   }
 
   //入力を始めたら成功率を表示させる
@@ -162,19 +192,22 @@ function push_key(e){
 
 //キーを離すと色が戻る
 window.addEventListener('keyup', e => {
+  // p_state = false;
     let key_code = e.key.toLowerCase();
     if(document.getElementById(key_code) != null){
       document.getElementById(key_code).classList.remove("pressing");
       document.getElementById(key_code).classList.remove("sc_pressing");
     }
-    p_state = false;
 });
 
 
 //リセットメソッドを定義
 function reset(){
   RankContainer.classList.remove("appear");
-  count = 0;          //入力成功した単語数のカウントを０に
+  TimeSet.blur();
+  Timer.textContent = '--';
+  msct = 0;          
+  count = 0;         //入力成功した単語数のカウントを０に
   shot_count = 0;    //入力総数を０に
   Shot.textContent = '入力総数：' + shot_count;
   miss_count = 0;    //ミス入力数を０に
@@ -188,6 +221,7 @@ function reset(){
   Subject.textContent = '';
   Kana.textContent = 'Ready?';
   StartKey.textContent = '';      //スペースキーを押せの表示を消す
+  ImageContainer.style.backgroundImage = 'url(./top_image.jpg)';
 }
 
 
@@ -197,17 +231,22 @@ function init() {
   q_select = Q_list[rnd];       //選ばれた問題を格納
   q_length = q_select.length;   //選ばれた問題の文字数を格納
   q_index = 0;
-  Subject.textContent = q_select;   //問題を表示
-  Kana.textContent = r2h(q_select); //問題のカナを表示
-  document.getElementById(q_select.charAt(q_index)).classList.add("push_me");   //次に押すキーの色を変える
   SubjectD.textContent = '';  //入力済み欄の表示を消す
+  Subject.textContent = char_state == true ? q_select.toUpperCase() : q_select;   //問題を表示
+  Kana.textContent = r2h(q_select); //問題のカナを表示
+  ImageContainer.style.backgroundImage = 'url(./image/' + q_select + '.jpg)';
+  document.getElementById(q_select.charAt(q_index)).classList.add("push_me");   //次に押すキーの色を変える
   // Form.input.focus();   //フォーカスを入力欄にセット
   // Form.input.value = '';  //入力欄を空にする
 }
 
 
 // 入力ミスした時の処理
-function miss(){
+function miss(key_code){
+  //間違えて押したキーの色を変更
+  if(document.getElementById(key_code) != null){ 
+    document.getElementById(key_code).classList.add("pressing");
+  }
   miss_count++ ;
   MissShot.textContent = '入力ミス数：' + miss_count ;
   //最大連続成功数を更新する
@@ -226,7 +265,6 @@ function finish() {
   //clearInterval関数はカウントタイマーのセットされた変数を引数とし、その繰り返しを終わらせる
   // clearInterval(countdown);
   state = false;  //stateをfalseにする(ボタンを押しても何も起こらなくなる)
-  Timer.textContent = 'タイムアップ!!';
   MaxSuccess.textContent = '最高連続成功：' + max_success;
   //次に入力しないといけないキーボードの色を戻す
   document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
@@ -235,9 +273,9 @@ function finish() {
   speed_rank = rankJudge(shot_count, miss_count, set_time);
   rankImage.style.backgroundImage = 'url(./rank_image/' + speed_rank[0] + '.jpg)';
   document.getElementById('average').textContent = 'あなたのタイピングは1分間で ' + ave + ' 文字';
-  RankName.textContent = r2h(speed_rank[0]) + ' ' + '級です';
+  RankName.textContent = r2h(speed_rank[0]) + ' ' + '級';
   RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
-  
+  TimeSet.focus();
   //subjectに文字列をセットし表示させる
   setTimeout(function(){Kana.textContent = '判定します・・・'; }, 1000);
   //ランク判定を表示させる
@@ -247,11 +285,12 @@ function finish() {
   setTimeout(function(){ game_state = false},3500);
 }
 
-//母音か判定するメソッド
-function boinJudge(char){
-  let boin = ['a','i','u','e','o']
+
+//母音かyかを判定するメソッド
+function nJudge(char){
+  let boin = ['a','i','u','e','o','y']
   for(var x in boin){
-    if(char == x){
+    if(char.toLowerCase() == x){
       return true;
     }
   }
@@ -261,7 +300,11 @@ function boinJudge(char){
 
 
 function rankJudge(sht, ms, stm){
-  ave = Math.round((sht - ms) / stm * 60 * (success_rate/100));
+  if(sht <= 0){
+    ave = 0;
+  }else{
+    ave = Math.round((sht - ms) / stm * 60 * (success_rate/100));
+  }
   let spd;
   if(ave >= 400){
     spd = ['gunkandori', '滑空速度：400km']
@@ -274,7 +317,7 @@ function rankJudge(sht, ms, stm){
   }else if(ave >= 240){
     spd = ['inuwashi', '滑空速度：240km']
   }else if(ave >= 200){
-    spd = ['mekishikooohikikoumori', '最高速度：160km']
+    spd = ['mekishikoohikikoumori', '最高飛行速度：160km']
   }else if(ave >= 180){
     spd = ['chi-ta-', '最高速度：120km']
   }else if(ave >= 150){
@@ -299,16 +342,24 @@ function rankJudge(sht, ms, stm){
     spd = ['kirinn', '走る速さ：51km']
   }else if(ave >= 50){
     spd = ['afurikazou', '走る速さ：40km']
-  }else if(ave >= 45){
+  }else if(ave >= 40){
     spd = ['burakkumanba', '走る速さ：25km']
-  }else if(ave >= 35){
+  }else if(ave >= 30){
     spd = ['suzumebachi', '飛ぶ速さ：22km']
   }else if(ave >= 25){
+    spd = ['komodoootokage', '走る速さ：20km']
+  }else if(ave >= 20){
     spd = ['niwatori', '走る速さ：14km']
   }else if(ave >= 15){
-    spd = ['jentu-penginn', '歩く速さ：10km']
-  }else{
+    spd = ['jentu-penginn', '走る速さ：10km']
+  }else if(ave >= 10){
     spd = ['hanmyou', '走る速さ：8km']
+  }else if(ave >= 5){
+    spd = ['zougame', '歩く速さ：3km']
+  }else if(ave >= 3){
+    spd = ['namakemono', '歩く速さ：0.2km']
+  }else{
+    spd = ['ryuuguusakurahitode', '動く速さ：0.05km']
   }
   return spd;
 }
