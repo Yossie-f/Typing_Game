@@ -45,7 +45,7 @@ var roman2hiragana = {
  * @param (String) roman:
  * @return (String): hiragana
  */
-function r2h(roman) {
+export default function r2h(roman) {
   var i, iz, match, regex,
       hiragana = '', table = roman2hiragana;
 

@@ -1,0 +1,136 @@
+/* 入力に関する表示 */
+.shot_bar{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 220px;
+  padding: 10px 10px;
+  border: 10px solid seagreen;
+  border-radius: 10px;
+  background-color: black;
+  font-weight: bold;
+}
+.shot_box{
+  border: snow solid 2px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  padding: 5px;
+  color: white;
+  background-color: black;
+}
+.shot_bar h2{
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+}
+.shot_bar p{
+  width: fit-content;
+  margin: 0;
+}
+.shot_bar label{
+  font-size: 18px;
+  color: snow;
+  text-shadow: 0 0 10px crimson,
+    0 0 20px #ffffff,
+    0 0 20px #ffffff,
+    0 0 20px #ffffff,
+    0 0 30px #71F6AB;
+
+  margin: 0;
+}
+#shot{
+}
+#consecutive_success{
+}
+#miss_shot{
+}
+#max-success{
+}
+#success_rate{
+}
+#mode{
+  border: solid black 3px;
+  border-radius: 20px;
+  width: 160px;
+  height: 40px;
+  font-size: 20px;
+  line-height: 40px;
+  text-align: center;
+  padding: 0 10px;
+  margin: auto;
+  margin-bottom: 8px;
+  background-color: rgb(71, 200, 49);
+  color: snow;
+}
+input{
+  display: block;
+  width: 180px;
+  margin: auto;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: crimson;
+}
+input:focus{
+  outline:solid 5px crimson;
+}
+
+
+/* 音声関係 */
+/* 共通 */
+.music_box{
+  display: flex;
+  background-color: gray;
+  height: fit-content;
+  width: 200px;
+  border-radius: 15px;
+  padding: 3px 5px;
+  color: white;
+  justify-content: center;
+}
+.music_box p{
+  font-size: 20px;
+  height: fit-content;
+  font-weight: bold;
+  margin: 0 5px;
+  text-align: center;
+}
+.label{
+  font-size:20px;
+  color: snow;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  text-shadow: 0 0 10px crimson,
+    0 0 20px #ffffff,
+    0 0 30px #ffffff,
+    0 0 30px #ffffff,
+    0 0 70px #3ef48d;
+}
+
+/* 効果音 */
+.sound_container{
+  position: absolute;
+  right: 240px;
+  top: 5px;
+  padding: 0 10px;
+}
+#sound_item{
+  background-color: gray;
+}
+#sound_state{
+  width: 80px;
+}
+
+/* ミュージック */
+.music_container{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  padding: 0 10px;
+}
+
+#music_state{
+  width: 80px;
+}

@@ -5,86 +5,113 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Typing Game</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script tyupe="module" src="./roma-hira.js"></script>
+  <link rel="stylesheet" href="CSS/main.css">
+  <link rel="stylesheet" href="CSS/status.css">
+  <link rel="stylesheet" href="CSS/keyboard.css">
+  <link rel="stylesheet" href="CSS/rank.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script type="module" src="./roma-hira.js"></script>
   <script type="module" src="./q_list.js"></script>
 </head>
+
 <body>
   <div class="base_container">
+    <!-- タイムの表示 -->
     <div class="time_container">
       <h3 class="TIME">TIME</h3>
       <h2 id="timer">--</h2>  
     </div>
 
+    <!-- 画像の表示 -->
+    <div class="question_container">
+      <div id="image_container">
+        <h3 id="start_key">SPACEではじめる</h3>
+      </div>
+      <!-- 問題の表示 -->
+      <div class="question">
+        <h2 id="kana">READY?</h2>
+        <h1 class="sub" id="subject_done"></h1>
+        <h1 class="sub" id="subject"></h1>
+      </div>
+    </div>
+
+    <!-- タイムメーター -->
+    <div id="gage">
+      <div id="meter"></div>
+    </div>
+
+    <!-- キーボード -->
+    <div class="keyboard_base">
+      <div class="keyboard_container">
+        <table class="keyboard">
+          <tr class="num_line">
+            <td id="1">1</td><td id="2">2</td><td id="3">3</td><td id="4">4</td><td id="5">5</td><td id="6">6</td><td id="7">7</td><td id="8">8</td><td id="9">9</td><td id="0">0</td><td id="-">-</td><td id="^">^</td>
+          </tr>
+          <tr class="fst_line">
+            <td id="q">Q</td><td id="w">W</td><td id="e">E</td><td id="r">R</td><td id="t">T</td><td id="y">Y</td><td id="u">U</td><td id="i">I</td><td id="o">O</td><td id="p">P</td><td id="@">@</td><td id="[">[</td>
+          </tr>
+          <tr class="sec_line">
+            <td id="a" class="a">A</td><td id="s" class="s">S</td><td id="d" class="d">D</td><td id="f" class="f">F</td><td id="g">G</td><td id="h">H</td><td id="j" class="j">J</td><td id="k" class="k">K</td><td id="l" class="l">L</td><td id=";" class="semicolon">;</td><td id=":">:</td><td id="]">]</td>
+          </tr>
+          <tr class="trd_line">
+            <td id="z">Z</td><td id="x">X</td><td id="c">C</td><td id="v">V</td><td id="b">B</td><td id="n">N</td><td id="m">M</td><td id=",">,</td><td id=".">.</td><td id="/">/</td>
+          </tr>
+          <tr class="space_line">
+            <td id=" " class="space">SPACE</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 入力ステータス -->
+    <div class="shot_bar">
+      <h2>ステータス</h2>
+      <div class="shot_box">
+        <p id="shot">おしたかず：</p>
+        <p id="consecutive_success"></p>
+        <p id="max-success"></p>
+        <p id="miss_shot"></p>
+        <p id="success_rate">じょうずさ：</p>
+      </div>
+      <p><label for="mode">②Alt をおす</label></p>
+      <p id="mode" name="mode">おおもじ モード</p>
+      <p><label for="time_set">①タイムをきめてください</label></p>
+      <p><label for="time_set">※  ↑ ↓ キー</label></p>
+      <input id="time_set" type="number" value="30" name="time_set">
+    </div>
+
+    <!-- 効果音の表示 -->
     <div class="sound_container">
       <div id="sound_item" class="music_box">
-        <p>効果音</p>
-        <p id="sound_state">OFF</p>
+        <p>なきごえ</p>
+        <p id="sound_state">きかない</p>
       </div>
-      <p class="label">Ctrlで切替</p>
+      <p class="label">③Ctrl をおす</p>
     </div>
-
+    <!-- 音楽の表示 -->
     <div class="music_container">
       <div id="music_item" class="music_box">
-        <p>音声</p>
-        <p id="music_state">OFF</p>
+        <p>おんがく</p>
+        <p id="music_state">きかない</p>
       </div>
-      <p class="label">Shiftで切替</p>
+      <p class="label">④Shift をおす</p>
     </div>
 
-    <div id="image_container"></div>
-    <div class="question">
-      <h2 id="kana">READY?</h2>
-      <h1 class="sub_done" id="subject_done"></h1>
-      <h1 class="sub" id="subject"></h1>
-    </div>
-    
-    <div class="shot_bar">
-      <p id="shot">入力総数：</p>
-      <p id="consecutive_success">連続成功数：</p>
-      <p id="miss_shot">入力ミス数：</p>
-      <p id="max-success">最高連続成功：</p>
-      <p id="success_rate">成功率：</p>
-      <p><label for="mode">Altで切替</label></p>
-      <p id="mode" name="mode">大文字モード</p>
-      <p><label for="time_set">タイムを決めてください</label></p>
-      <p><label for="time_set">※  ↑ ↓ キー</label></p>
-      <p><input id="time_set" type="number" value="30" name="time_set"></p>
-    </div>
-
+    <!-- ランクの表示 -->
     <div id="rank_container" class="rank_body">
       <div id="image"></div>
-      <h2 id="next" class="next_btn">SPACEで再チャレンジ</h2>
+      <h2 id="next" class="next_btn">SPACEでもう１回チャレンジ!!</h2>
       <div class="rank">
-        <h3 id="average">あなたのタイピングは ●文字/1min</h3>
+        <h3>あなたのタイピングは１びょうで </h3>
+        <h3 id="average"></h3>
+        <h3> もじ</h3>
         <h1 id="rank_name" class="rank_name_c"></h1>
         <h2 id="rank_data" class="rank_data_c"></h2>
       </div>
     </div>
 
-    <div class="keyboard">
-      <h1 id="start_key">SPACEではじめる </h1>
-      <table>
-        <tr class="num_line">
-          <td id="1">1</td><td id="2">2</td><td id="3">3</td><td id="4">4</td><td id="5">5</td><td id="6">6</td><td id="7">7</td><td id="8">8</td><td id="9">9</td><td id="0">0</td><td id="-">-</td><td id="^">^</td>
-        </tr>
-        <tr class="fst_line">
-          <td id="q">Q</td><td id="w">W</td><td id="e">E</td><td id="r">R</td><td id="t">T</td><td id="y">Y</td><td id="u">U</td><td id="i">I</td><td id="o">O</td><td id="p">P</td><td id="@">@</td><td id="[">[</td>
-        </tr>
-        <tr class="sec_line">
-          <td id="a" class="a">A</td><td id="s" class="s">S</td><td id="d" class="d">D</td><td id="f" class="f">F</td><td id="g">G</td><td id="h">H</td><td id="j" class="j">J</td><td id="k" class="k">K</td><td id="l" class="l">L</td><td id=";" class="semicolon">;</td><td id=":">:</td><td id="]">]</td>
-        </tr>
-        <tr class="trd_line">
-          <td id="z">Z</td><td id="x">X</td><td id="c">C</td><td id="v">V</td><td id="b">B</td><td id="n">N</td><td id="m">M</td><td id=",">,</td><td id=".">.</td><td id="/">/</td>
-        </tr>
-        <tr class="space_line">
-          <td id=" " class="space">SPACE</td>
-        </tr>
-      </table>
-    </div>
-
   </div>
-  
+
   <script type="module" src="./main.js"></script>
 </body>
 </html>

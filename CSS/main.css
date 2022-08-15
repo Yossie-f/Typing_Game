@@ -1,0 +1,218 @@
+/* ベース */
+.base_container{
+  position: relative;
+  width: 1000px;
+  height: fit-content;
+  background: url("./../image/back_image/background.png") bottom / cover;
+  margin: auto;
+  padding: 20px 50px 100px 50px;
+  align-items: center;
+  align-content: center;
+  border: solid rgb(255, 174, 0) 5px;
+  border-radius: 10px;
+  background-color: antiquewhite;
+  z-index: -10;
+}
+
+/* タイムの表示 */
+.time_container{
+  margin-bottom: 20px;
+}
+.TIME{
+  width: fit-content;
+  margin: auto;
+  color: gray;
+}
+#timer{
+  width: fit-content;
+  margin: auto;
+  font-size: 40px;
+  color: yellow;
+  text-shadow: 0 0 10px rgb(20, 140, 220),
+    0 0 20px #ffffff,
+    0 0 30px #7c71f6;
+}
+
+
+/* 画像と問題の表示 */
+.question_container{
+  position: relative;
+  width: 100%;
+}
+#image_container{
+    height: 300px;
+    width: 450px;
+    border: seagreen solid 3px;
+    border-radius: 8px;
+    margin: auto;
+    background: url("./../image/back_image/top_image.jpg") top / contain;
+    z-index: -5;
+}
+/* スタートの表示 */
+#start_key{
+  width: 80%;
+  z-index: 30;
+  margin: 30px auto;
+  font-size: 30px;
+  line-height: 60px;
+  text-align: center;
+  background-color: seagreen;
+  color: rgb(255, 232, 80);
+  border-radius: 5px;
+  animation: flash 3.0s linear infinite;
+}
+@keyframes flash {
+  0%,100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+
+/* 問題文の表示 */
+.question{
+  position: absolute;
+  top: 200px;
+  width: 100%;
+  margin:0 auto;
+  text-align: center;
+}
+#kana{
+  color: snow;
+  text-shadow: 0 0 10px crimson,
+    0 0 20px #ffffff,
+    0 0 30px #71F6AB;
+  margin-bottom: 0px;
+}
+.sub{
+  display: inline-block;
+  font-size: 40px;
+  line-height: 45px;
+  margin: unset;
+  padding: unset;
+  text-shadow: 0 0 10px snow,
+    0 0 20px #ffffff,
+    0 0 30px #ffffff,
+    0 0 40px #ffffff,
+    0 0 40px #ffffff,
+    0 0 40px #ffffff,
+    0 0 40px #ffffff,
+    0 0 70px #3ef48d;
+}
+#subject_done{
+  color: rgb(0, 128, 255);
+}
+#subject{
+  color: crimson;
+}
+
+/* タイムメーター */
+#gage{
+  width: 450px;
+  height: 10px;
+  margin: 0 auto;
+  border: solid seagreen 3px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+#meter{
+  width: 0%;
+  height: 100%;
+  background-color: dodgerblue;
+  opacity: 0.8;
+}
+
+
+/* キーボード（ベース） */
+.keyboard_base{
+  position: relative;
+}
+/* キーボード（コンテナ） */
+.keyboard_container{
+  width: fit-content;
+  margin: auto;
+  padding: 10px;
+  border: 3px rgb(0, 0, 0) solid;
+  border-radius: 12px;
+  background-color: silver;
+
+}
+/* キーボード本体 */
+.keyboard{
+  margin: auto;
+  width: fit-content;
+  padding: 2px;
+  border: 1px rgb(0, 0, 0) solid;
+  border-radius: 8px;
+  background-color: silver;
+  box-shadow:0px 0px 12px -5px  black inset;
+}
+/* キーの列 */
+tr{
+  display: block;
+  background-color: silver;
+}
+.num_line{
+  padding: unset;
+}
+.fst_line{
+  padding-left: 15px;
+}
+.sec_line{
+  padding-left: 30px;
+}
+.trd_line{
+  padding-left: 45px;
+}
+.space_line{
+  padding-left: 160px;
+}
+/* キー単体 */
+td{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 3px;
+  border: rgb(85, 85, 85) solid 1px;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 30px;
+  background-color: rgb(71, 71, 71);
+  box-shadow: 2px 0.15em 0 rgb(0, 0, 0);
+  color: snow;
+}
+.space{
+  width: 140px;
+}
+/* ホームポジション */
+.a,.s,.d,.f,.j,.k,.l,.semicolon{
+  background-color: rgb(98, 137, 97);
+}
+
+/* 押したキーの色 */
+.pressing {
+  background-color: crimson;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+  transform: translate3d(0, 0.15em, 0);
+  box-shadow: none;
+}
+.sc_pressing {
+  background-color: goldenrod;
+  color: black;
+  font-weight: bold;
+  transform: translate3d(0, 0.15em, 0);
+  box-shadow: none;
+}
+/* 次に押すキーの色 */
+.push_me {
+  background-color: rgb(0, 136, 255);
+  color: yellow;
+  font-weight: bold;
+  font-size: 28px;
+  -webkit-filter: drop-shadow(0px 3px 10px rgba(73, 141, 252, 0.8));
+    filter: drop-shadow(0px 0px 10px rgba(73, 141, 252, 0.8));
+}
