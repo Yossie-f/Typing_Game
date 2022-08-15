@@ -1,4 +1,4 @@
-
+import Q_list from "./q_list.js" 
 
 const Kana = document.getElementById('kana');//カナ
 const Subject = document.getElementById('subject'); //問題(入力前)
@@ -28,21 +28,7 @@ const RankData = document.getElementById('rank_data');  //ランク関連情報
 
 
 
-//文字列配列で問題のリストを用意
-const Q_list = [    
-  // 'kendama',
-  // 'samuraiari',
-  // 'azumaoozuari',
-  // 'shachi',
-  // 'keitaidenwa',
-  // 'ameiroari',
-  // 'akayamaari',
-  // 'amimeari',
-  // 'kuroooari',
-  // 'muneakaooari',
-  'hatidori',
-  // 'chi-ta-',
-];
+
 
 
 let q_select;       //ランダムに選ばれた問題を格納する
@@ -89,7 +75,7 @@ miss_sound = new Audio('./sounds/Cannon01-mp3/Motion-Fracture01-2.mp3');
 
 //Ctrlキーで音声のミュートとステートを切り替える
 window.addEventListener('keydown', (e) => {
-  if(e.key === 'Control'){
+  if(e.key === 'Shift'){
     if(back_music.muted){
       m_state = true;
       back_music.muted = false;
@@ -103,7 +89,7 @@ window.addEventListener('keydown', (e) => {
     }
   }
   //Altキーで効果音のステート切替
-  if(e.key === 'Alt'){
+  if(e.key === 'Control'){
     if(s_state == false){
       s_state = true;
       miss_sound.muted = false;
@@ -175,7 +161,7 @@ function start(event){
 window.addEventListener('keydown', push_key);
 function push_key(e){
   //escが押されたらモード切り替え
-  if(e.key ==='Shift'){
+  if(e.key ==='Alt'){
     char_state = !char_state;
     if(char_state == true){
       Mode.textContent = '大文字モード';
@@ -186,7 +172,7 @@ function push_key(e){
     }
   }
   let key_code = e.key.toLowerCase();
-  if(!state || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt'){
+  if(!state || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Control'){
     return;
   } 
   //stateがtrueかつp_stateがfalseの時に以下が実行される

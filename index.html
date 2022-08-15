@@ -7,6 +7,7 @@
   <title>Typing Game</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <script tyupe="module" src="./roma-hira.js"></script>
+  <script type="module" src="./q_list.js"></script>
 </head>
 <body>
   <div class="base_container">
@@ -20,7 +21,7 @@
         <p>効果音</p>
         <p id="sound_state">OFF</p>
       </div>
-      <p class="label">Altで切替</p>
+      <p class="label">Ctrlで切替</p>
     </div>
 
     <div class="music_container">
@@ -28,7 +29,7 @@
         <p>音声</p>
         <p id="music_state">OFF</p>
       </div>
-      <p class="label">Ctrlで切替</p>
+      <p class="label">Shiftで切替</p>
     </div>
 
     <div id="image_container"></div>
@@ -44,7 +45,7 @@
       <p id="miss_shot">入力ミス数：</p>
       <p id="max-success">最高連続成功：</p>
       <p id="success_rate">成功率：</p>
-      <p><label for="mode">Shiftで切替</label></p>
+      <p><label for="mode">Altで切替</label></p>
       <p id="mode" name="mode">大文字モード</p>
       <p><label for="time_set">タイムを決めてください</label></p>
       <p><label for="time_set">※矢印キー(↑,↓)で選ぶ</label></p>
@@ -84,6 +85,6 @@
 
   </div>
   
-  <script src="./main.js"></script>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
