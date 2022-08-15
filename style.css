@@ -183,6 +183,7 @@
 input{
   border-radius: 8px;
   text-align: center;
+  width: 100px;
 }
 input:focus{
   outline:solid 5px crimson;
@@ -226,8 +227,8 @@ input:focus{
   background-color: black;
   color: yellow;
   border-radius: 10px;
-  transition: all 3s;
-  animation: flash 1.3s linear infinite;
+  transition: all 2s;
+  animation: flash 0.8s linear infinite;
 }
 @keyframes flash {
   0%,100% {
