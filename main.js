@@ -1,3 +1,5 @@
+
+
 const Kana = document.getElementById('kana');//カナ
 const Subject = document.getElementById('subject'); //問題(入力前)
 const SubjectD = document.getElementById('subject_done'); //問題(入力済み)
@@ -5,6 +7,11 @@ const ImageContainer = document.getElementById('image_container');
 const Timer = document.getElementById('timer');  //制限時間
 const Shot = document.getElementById('shot'); //総入力数
 const MissShot = document.getElementById('miss_shot');//ミス入力数
+const MusicItem = document.getElementById('music_item');  //音声表示
+const MusicState = document.getElementById('music_state');
+const SoundItem = document.getElementById('sound_item');
+const SoundState = document.getElementById('sound_state');
+
 const ConsecutiveSuccess = document.getElementById('consecutive_success'); //連続入力成功数
 const SuccessRate = document.getElementById('success_rate'); //成功率
 const MaxSuccess = document.getElementById('max-success'); //最大連続成功数
@@ -20,6 +27,7 @@ const RankData = document.getElementById('rank_data');  //ランク関連情報
 
 
 
+
 //文字列配列で問題のリストを用意
 const Q_list = [    
   // 'kendama',
@@ -32,9 +40,10 @@ const Q_list = [
   // 'amimeari',
   // 'kuroooari',
   // 'muneakaooari',
-  'hanrann',
+  'hatidori',
   // 'chi-ta-',
 ];
+
 
 let q_select;       //ランダムに選ばれた問題を格納する
 let q_length = 0;   //選ばれた問題の文字数
@@ -55,11 +64,61 @@ let game_state = false;   //Game全体のステート(タイムアップ〜再�
 let state = false;    //入力判定の実行可否のステート
 let p_state = false;  //キープッシュ状態のステート 押したらtrue
 let char_state = true;  //大文字か小文字の状態 trueで大文字
+let m_state = false;  //音声のステート falseで鳴らさない
+let s_state = false;  //効果音のステート falseで鳴らさない
 let countdown;
 let msct = 0; //nで間違えた時の判定用カウント
+let back_music, back_music2, miss_sound;  //音声オブジェクト
 
 
 TimeSet.focus();
+
+//バックミュージック選択メソッド
+function backMusic(url){
+  back_music = new Audio(url);
+  if(m_state == false){
+    back_music.muted = true;  //ミュートする
+  }
+  back_music.play();          //再生する
+  return back_music;
+}
+
+backMusic('./sounds/back_music/涼風薫る宵.mp3');
+back_music.loop = true;
+miss_sound = new Audio('./sounds/Cannon01-mp3/Motion-Fracture01-2.mp3');
+
+//Ctrlキーで音声のミュートとステートを切り替える
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'Control'){
+    if(back_music.muted){
+      m_state = true;
+      back_music.muted = false;
+      MusicItem.style.backgroundColor = 'crimson';
+      MusicState.textContent = 'ON';
+    }else{
+      m_state = false;          //ステートをfalseに
+      back_music.muted = true;  //ミュートをONにする
+      MusicItem.style.backgroundColor = 'gray';
+      MusicState.textContent = 'OFF';
+    }
+  }
+  //Altキーで効果音のステート切替
+  if(e.key === 'Alt'){
+    if(s_state == false){
+      s_state = true;
+      miss_sound.muted = false;
+      SoundItem.style.backgroundColor = 'dodgerblue';
+      SoundState.textContent = 'ON';
+    }else{
+      s_state = false;
+      miss_sound.muted = true;
+      SoundItem.style.backgroundColor = 'gray';
+      SoundState.textContent = 'OFF';
+    }
+  }
+});
+
+
 //Gameスタートメソッド
 window.addEventListener('keydown', start);
 function start(event){
@@ -71,15 +130,19 @@ function start(event){
     reset();    //全てのカウントの値と表示をリセット
     set_time = TimeSet.value;
     let time = set_time //デクリメント用に制限時間をコピー
-
+    
     //カウント用非同期メソッド
-    function countDown(sec, CD) {
+    function countDown(sec, CD, count, url) {
       return new Promise(resolve => {
+        let bool = true;
         CD = setInterval(function(){
           Timer.textContent = --sec;
+          if(sec <= count && bool == true){
+            backMusic(url);
+            bool = false;
+          }
           if(sec <= 0){
             clearInterval(CD);
-            console.log('非同期処理終わり');
             resolve();
           }
         }, 1000);
@@ -87,16 +150,18 @@ function start(event){
     };
 
     let st_countdown;
-    console.log('miss_count1');
 
     // バックグラウンドの非同期処理（タイム管理）メソッド
     async function timeManage () {
-      await countDown(4, st_countdown); //スタートまでのカウント
+      // back_music.pause();
+      await countDown(4, st_countdown, 4, './sounds/back_music/Countdown03-2.mp3'); //スタートまでのカウント
       Timer.textContent = 'スタート！！';
       init();     //問題文を初期化
       state = true;
+      back_music2 = backMusic('/sounds/back_music/Chirping_Insect-Real_Ambi01-1.mp3');
+      back_music.loop = true;
       await new Promise(resolve => setTimeout(resolve, 500));
-      await countDown(time, countdown); //スタート〜終了までのカウント
+      await countDown(time, countdown, 5, './sounds/back_music/Countdown05-2.mp3'); //スタート〜終了までのカウント
       Timer.textContent = 'タイムアップ!!';
       finish();   //終了メソッド実行
       }  
@@ -121,7 +186,7 @@ function push_key(e){
     }
   }
   let key_code = e.key.toLowerCase();
-  if(!state || e.key === 'Shift'){
+  if(!state || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt'){
     return;
   } 
   //stateがtrueかつp_stateがfalseの時に以下が実行される
@@ -170,8 +235,18 @@ function push_key(e){
       }else{
         miss(key_code);
       }
+    }else if(key_code == 'c' && q_select[q_index] == 't'){
+      let a = q_select.slice(0, q_index);
+      let b = q_select.slice(q_index+1);
+      q_select = a + 'ch' + b;
+      q_index++;
+      q_length++;
+      let subD = q_select.substring(0, q_index);
+      SubjectD.textContent = char_state == true ? subD.toUpperCase() : subD; 
+      let sub = q_select.substring(q_index);
+      Subject.textContent = char_state == true ? sub.toUpperCase() : sub; 
     }else{
-      miss(key_code);
+      miss();
     }
   }
 
@@ -203,9 +278,11 @@ window.addEventListener('keyup', e => {
 
 //リセットメソッドを定義
 function reset(){
+  back_music.pause();
+  backMusic('./sounds/back_music/Onoma-Inspiration08-3(Low-Delay).mp3');
   RankContainer.classList.remove("appear");
   TimeSet.blur();
-  Timer.textContent = '--';
+  Timer.textContent = '3';
   msct = 0;          
   count = 0;         //入力成功した単語数のカウントを０に
   shot_count = 0;    //入力総数を０に
@@ -219,9 +296,9 @@ function reset(){
   SuccessRate.textContent = '成功率：0%';   //入力成功率の表示を消す
   SubjectD.textContent = 'ここに問題が出ます';
   Subject.textContent = '';
-  Kana.textContent = 'Ready?';
+  Kana.textContent = 'READY?';
   StartKey.textContent = '';      //スペースキーを押せの表示を消す
-  ImageContainer.style.backgroundImage = 'url(./top_image.jpg)';
+  ImageContainer.style.backgroundImage = 'url(./image/back_image/top_image.jpg)';
 }
 
 
@@ -241,20 +318,26 @@ function init() {
 }
 
 
-// 入力ミスした時の処理
+// 入力ミスメソッド
 function miss(key_code){
   //間違えて押したキーの色を変更
   if(document.getElementById(key_code) != null){ 
     document.getElementById(key_code).classList.add("pressing");
   }
+  //ミス音を鳴らす
+  let rand = Math.floor(Math.random() * 40);
+  miss_sound = new Audio('sounds/miss_sounds/' + rand + '.mp3');
+  if(s_state == false){
+    miss_sound.muted = true;
+  }
+  miss_sound.play();
+  //カウントと表示を変更
   miss_count++ ;
   MissShot.textContent = '入力ミス数：' + miss_count ;
-  //最大連続成功数を更新する
   if(max_success < consecutive_success){
     max_success = consecutive_success;
     MaxSuccess.textContent = '最高連続成功：' + max_success;
   }
-  //連続入力成功数を０にする
   consecutive_success = 0;  
   ConsecutiveSuccess.textContent = '連続成功数：' + consecutive_success ;
 }
@@ -268,21 +351,29 @@ function finish() {
   MaxSuccess.textContent = '最高連続成功：' + max_success;
   //次に入力しないといけないキーボードの色を戻す
   document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
+  //音楽を切り替える
   
   let speed_rank;   //ランク判定格納用
   speed_rank = rankJudge(shot_count, miss_count, set_time);
-  rankImage.style.backgroundImage = 'url(./rank_image/' + speed_rank[0] + '.jpg)';
+  rankImage.style.backgroundImage = 'url(./image/rank_image/' + speed_rank[0] + '.jpg)';
   document.getElementById('average').textContent = 'あなたのタイピングは1分間で ' + ave + ' 文字';
   RankName.textContent = r2h(speed_rank[0]) + ' ' + '級';
   RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
-  TimeSet.focus();
   //subjectに文字列をセットし表示させる
   setTimeout(function(){Kana.textContent = '判定します・・・'; }, 1000);
   //ランク判定を表示させる
-  setTimeout(function(){RankContainer.classList.add("appear");}, 2000);
+  setTimeout(function(){
+    RankContainer.classList.add("appear");
+    back_music2.pause();
+    backMusic('./sounds/back_music/bo-tto hidamari.mp3');
+    back_music.loop = true;
+  }, 2000);
   // StartKey.textContent = ' SPACEでもういちど';
   //game_stateをfalseにすることで再びスタートメソッドが実行できる
-  setTimeout(function(){ game_state = false},3500);
+  setTimeout(function(){ 
+    TimeSet.focus();
+    game_state = false;
+  },3500);
 }
 
 
@@ -306,7 +397,7 @@ function rankJudge(sht, ms, stm){
     ave = Math.round((sht - ms) / stm * 60 * (success_rate/100));
   }
   let spd;
-  if(ave >= 400){
+  if(ave >= 450){
     spd = ['gunkandori', '滑空速度：400km']
   }else if(ave >= 320){
     spd = ['amatubame', '滑空速度：320km']
@@ -363,6 +454,7 @@ function rankJudge(sht, ms, stm){
   }
   return spd;
 }
+
 
 
 

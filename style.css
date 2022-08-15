@@ -3,7 +3,7 @@
   position: relative;
   width: 65%;
   height: fit-content;
-  background: url("./background.png") bottom / cover;
+  background: url("./image/back_image/background.png") bottom / cover;
   margin: auto;
   padding: 75px 50px;
   align-items: center;
@@ -13,7 +13,6 @@
   background-color: antiquewhite;
   z-index: -10;
 }
-
 
 /* タイムの表示 */
 .time_container{
@@ -37,6 +36,54 @@
     0 0 30px #7c71f6;
 }
 
+
+/* 効果音の切替 */
+.sound_container{
+  position: absolute;
+  right: 120px;
+  top: 5px;
+  padding: 0 10px;
+}
+#sound_item{
+  background-color: gray;
+}
+#music_state{
+  width: 20px;
+}
+/* 音声の表示 */
+.music_container{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  padding: 0 10px;
+}
+.label{
+  font-size: 3px;
+  color: snow;
+  font-weight: bold;
+  text-align: center;
+}
+.music_box{
+  display: flex;
+  background-color: gray;
+  height: fit-content;
+  width: 80px;
+  border-radius: 15px;
+  padding: 3px 5px;
+  color: white;
+  justify-content: center;
+}
+.music_box p{
+  font-size: 10px;
+  height: fit-content;
+  font-weight: bold;
+  margin: 0 5px;
+}
+#music_state{
+  width: 20px;
+}
+
+
 /* 問題文の表示 */
 .question{
   width: fit-content;
@@ -57,7 +104,7 @@
     border: seagreen solid 3px;
     border-radius: 8px;
     margin: auto;
-    background: url("./top_image.jpg") top / contain;
+    background: url("./image/back_image/top_image.jpg") top / contain;
     z-index: -5;
 }
 #kana{
@@ -227,8 +274,8 @@ input:focus{
 #start_key{
   position: absolute;
   top: -106%;
-  left:26%;
-  width: 49%;
+  left:30%;
+  width: 40%;
   z-index: 30;
   margin: auto;
   text-align: center;
@@ -250,14 +297,21 @@ table{
   /* position: absolute; */
   margin: auto;
   width: fit-content;
-  border: 3px rgb(93, 128, 89) solid;
+  border: 3px rgb(0, 0, 0) solid;
   border-radius: 10px;
-  padding: 10px 20px;
-  background-color: rgb(255, 255, 255);
+  padding: 8px 20px;
+  background-color: silver;
 }
 tr{
   display: block;
-  border: solid 1px rgb(178, 176, 176);
+  border-right: solid 2px black;
+  border-left: solid 1px black;
+  background-color: silver;
+  padding: 0 10px;
+}
+.num_line{
+  margin-top: 10px;
+  border-top: solid 1px black;
 }
 .fst_line{
   padding-left: 15px;
@@ -270,25 +324,30 @@ tr{
 }
 .space_line{
   padding-left:160px ;
+  border-bottom: black solid 1px;
+  box-shadow:0px -10px 10px -10px black inset;
 }
 td{
   display: inline-block;
   width: 30px;
   height: 30px;
-  margin: 4px;
-  border: black solid 1px;
+  margin: 3px;
+  border: rgb(85, 85, 85) solid 1px;
+  border-radius: 5px;
   text-align: center;
   line-height: 30px;
-  background-color: aquamarine;
-  box-shadow: 0px 0.15em 0 rgb(99, 205, 169);
+  background-color: rgb(71, 71, 71);
+  box-shadow: 2px 0.15em 0 rgb(0, 0, 0);
+  color: snow;
 }
 .space{
   width: 140px;
+  margin-bottom: 10px;
 }
 
 /* ホームポジション */
 .a,.s,.d,.f,.j,.k,.l,.semicolon{
-  background-color: rgb(246, 255, 80);
+  background-color: rgb(98, 137, 97);
 }
 
 /* 押したキーの色 */
