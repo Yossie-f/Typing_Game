@@ -26,11 +26,6 @@ const RankName = document.getElementById('rank_name');  //判定ランク名
 const RankData = document.getElementById('rank_data');  //ランク関連情報
 
 
-
-
-
-
-
 let q_select;       //ランダムに選ばれた問題を格納する
 let q_length = 0;   //選ばれた問題の文字数
 let q_index;    //入力している問題文の文字位置を表す
@@ -166,10 +161,13 @@ function push_key(e){
     if(char_state == true){
       Mode.textContent = '大文字モード';
       Mode.style.backgroundColor = "rgb(71, 200, 49)";
+      
     }else{
       Mode.textContent = '小文字モード';
       Mode.style.backgroundColor = "rgb(49, 132, 200)";
     }
+    SubjectD.textContent = char_state == true ? q_select.substring(0, q_index).toUpperCase() : q_select.substring(0, q_index);
+    Subject.textContent = char_state == true ? q_select.substring(q_index).toUpperCase() : q_select.substring(q_index);
   }
   let key_code = e.key.toLowerCase();
   if(!state || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Control'){
@@ -216,24 +214,38 @@ function push_key(e){
         q_select = a + 'n' + b;
         q_index++; 
         q_length++;
+        consecutive_success++;
         let subD = q_select.substring(0, q_index);
         SubjectD.textContent = char_state == true ? subD.toUpperCase() : subD;
       }else{
         miss(key_code);
       }
-    }else if(key_code == 'c' && q_select[q_index] == 't'){
+    }else if(key_code == 'c' && q_select[q_index] == 't' && q_select[q_index+1] == 'i'){
       let a = q_select.slice(0, q_index);
       let b = q_select.slice(q_index+1);
       q_select = a + 'ch' + b;
       q_index++;
       q_length++;
+      consecutive_success++;
       let subD = q_select.substring(0, q_index);
       SubjectD.textContent = char_state == true ? subD.toUpperCase() : subD; 
       let sub = q_select.substring(q_index);
       Subject.textContent = char_state == true ? sub.toUpperCase() : sub; 
-    }else{
+    }else if(key_code == 'h' && q_select[q_index] == 'i' && q_select[q_index-1] == 's'){
+      let a = q_select.slice(0, q_index);
+      let b = q_select.slice(q_index);
+      q_select = a + 'h' + b;
+      q_index++;
+      q_length++;
+      consecutive_success++;
+      let subD = q_select.substring(0, q_index);
+      SubjectD.textContent = char_state == true ? subD.toUpperCase() : subD; 
+      let sub = q_select.substring(q_index);
+      Subject.textContent = char_state == true ? sub.toUpperCase() : sub; 
+    }else {
       miss();
     }
+    ConsecutiveSuccess.textContent = '連続成功数：' + consecutive_success ;
   }
 
   //入力を始めたら成功率を表示させる
