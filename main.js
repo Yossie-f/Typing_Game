@@ -110,9 +110,9 @@ function start(event){
     return;
   //スペースキーが押された時にだけスタートする
   }else if(state == false && event.key === ' '){
-    if(TimeSet.value == 0){
+    if(TimeSet.value < 6){
       resetA();
-      alert('ステータスの、タイムが０です!! やじるしキー（↑）をおして、０より大きいすうじにしてください。');
+      alert('ステータスのタイムが みじかいです!! やじるしキー（↑）をおして、５より大きいすうじにしてください。あかいカーソルがはずれてしまったら、Tabキーをおして、カーソルをあわせてください。');
       TimeSet.focus();
       return;
     }
