@@ -29,7 +29,7 @@
 }
 .shot_bar label{
   font-size: 18px;
-  color: snow;
+  color: yellow;
   text-shadow: 0 0 10px crimson,
     0 0 20px #ffffff,
     0 0 20px #ffffff,
@@ -66,6 +66,7 @@ input{
   display: block;
   width: 180px;
   margin: auto;
+  margin-bottom: 10px;
   border-radius: 8px;
   text-align: center;
   font-size: 30px;
@@ -98,7 +99,7 @@ input:focus{
 }
 .label{
   font-size:20px;
-  color: snow;
+  color: yellow;
   font-weight: bold;
   text-align: center;
   margin: 0;

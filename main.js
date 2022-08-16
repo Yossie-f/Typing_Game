@@ -418,14 +418,16 @@ function finish() {
   RankName.textContent = r2h(speed_rank[0]) + ' ' + '級';
   RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
   //文字表示させる
-  setTimeout(function(){Kana.textContent = 'がんばったね!!'; }, 1000);
+  setTimeout(function(){Kana.textContent = 'はんていします・・・'; }, 1000);
+  setTimeout(function(){Subject.textContent = 'よくできました!!'; }, 1000);
+  setTimeout(function(){SubjectD.textContent = ''; }, 1000);
   //ランク判定を表示させる
   setTimeout(function(){
     RankContainer.classList.add("appear");
     back_music2.pause();
     backMusic('./sounds/back_music/bo-tto hidamari.mp3');
     back_music.loop = true;
-  }, 2000);
+  }, 2500);
   // StartKey.textContent = ' SPACEでもういちど';
   //game_stateをfalseにすることで再びスタートメソッドが実行できる
   setTimeout(function(){ 
