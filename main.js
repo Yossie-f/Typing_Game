@@ -56,6 +56,11 @@ let back_music, back_music2, miss_sound;  //音声オブジェクト
 
 
 TimeSet.focus();
+for(var i = 0; i < 10; i++){
+  document.getElementById(i).classList.add("push_me");
+}
+document.getElementById(' ').classList.add("push_me");
+
 
 //バックミュージック選択メソッド
 function backMusic(url){
@@ -71,7 +76,7 @@ backMusic('./sounds/back_music/涼風薫る宵.mp3');
 back_music.loop = true;
 miss_sound = new Audio('./sounds/Cannon01-mp3/Motion-Fracture01-2.mp3');
 
-//Ctrlキーで音声のミュートとステートを切り替える
+//Shiftキーで音声のミュートとステートを切り替える
 window.addEventListener('keydown', (e) => {
   if(e.key === 'Shift'){
     if(back_music.muted){
@@ -86,7 +91,7 @@ window.addEventListener('keydown', (e) => {
       MusicState.textContent = 'きかない';
     }
   }
-  //Altキーで効果音のステート切替
+  //Ctflキーで効果音のステート切替
   if(e.key === 'Control'){
     if(s_state == false){
       s_state = true;
@@ -116,6 +121,11 @@ function start(event){
       TimeSet.focus();
       return;
     }
+    for(var i = 0; i < 10; i++){
+      document.getElementById(i).classList.remove("push_me");
+    }
+    document.getElementById(' ').classList.remove("push_me");
+
     game_state = true;
     resetA();
     resetB();    //全てのカウントの値と表示をリセット
@@ -201,7 +211,7 @@ function push_key(e){
       Mode.textContent = 'こもじ モード';
       Mode.style.backgroundColor = "rgb(49, 132, 200)";
     }
-    if(typeof q_select !== 'undefined'){
+    if(typeof q_select !== 'undefined' && state == true){
       SubjectD.textContent = char_state == true ? q_select.substring(0, q_index).toUpperCase() : q_select.substring(0, q_index);
       Subject.textContent = char_state == true ? q_select.substring(q_index).toUpperCase() : q_select.substring(q_index);
     }
@@ -409,8 +419,6 @@ function finish() {
   // MaxSuccess.textContent = '最高連続成功：' + max_success;
   //次に入力しないといけないキーボードの色を戻す
   document.getElementById(q_select.charAt(q_index)).classList.remove("push_me");
-  //音楽を切り替える
-  
   let speed_rank;   //ランク判定格納用
   speed_rank = rankJudge(shot_count, miss_count, set_time);
   rankImage.style.backgroundImage = 'url(./image/rank_image/' + speed_rank[0] + '.jpg)';
