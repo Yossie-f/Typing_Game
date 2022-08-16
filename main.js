@@ -417,8 +417,8 @@ function finish() {
   document.getElementById('average').textContent =  Math.round(ave/60*10)/10;
   RankName.textContent = r2h(speed_rank[0]) + ' ' + '級';
   RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
-  //subjectに文字列をセットし表示させる
-  setTimeout(function(){Kana.textContent = 'はんてい中・・・'; }, 1000);
+  //文字表示させる
+  setTimeout(function(){Kana.textContent = 'がんばったね!!'; }, 1000);
   //ランク判定を表示させる
   setTimeout(function(){
     RankContainer.classList.add("appear");
