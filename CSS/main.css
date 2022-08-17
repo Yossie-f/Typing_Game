@@ -11,7 +11,7 @@
   border: solid rgb(255, 174, 0) 5px;
   border-radius: 10px;
   background-color: antiquewhite;
-  z-index: -10;
+  z-index: 0;
 }
 
 /* タイムの表示 */
@@ -41,7 +41,7 @@
 }
 #image_container{
     height: 300px;
-    width: 440px;
+    width: 450px;
     border: seagreen solid 3px;
     border-radius: 8px;
     margin: auto;
@@ -74,15 +74,20 @@
 /* 問題文の表示 */
 .question{
   position: absolute;
-  top: 200px;
+  top: 190px;
   width: 100%;
   margin:0 auto;
   text-align: center;
 }
 #kana{
-  color: snow;
+  color: yellow;
+  font-size: 30px;
   text-shadow: 0 0 10px crimson,
-    0 0 20px #ffffff,
+    0 0 20px #000000,
+    0 0 20px #000000,
+    0 0 20px #000000,
+    0 0 20px #000000,
+    0 0 20px #000000,
     0 0 30px #71F6AB;
   margin-bottom: 0px;
 }
@@ -120,7 +125,7 @@
 #meter{
   width: 0%;
   height: 100%;
-  background-color: dodgerblue;
+  background-color: yellow;
   opacity: 0.8;
 }
 

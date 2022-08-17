@@ -9,6 +9,7 @@
   border-radius: 10px;
   background-color: black;
   font-weight: bold;
+  font-size: 20px;
 }
 .shot_box{
   border: snow solid 2px;
@@ -28,7 +29,7 @@
   margin: 0;
 }
 .shot_bar label{
-  font-size: 18px;
+  font-size: 20px;
   color: yellow;
   text-shadow: 0 0 10px crimson,
     0 0 20px #ffffff,
@@ -36,7 +37,7 @@
     0 0 20px #ffffff,
     0 0 30px #71F6AB;
 
-  margin: 0;
+  margin: 2px 0;
 }
 #shot{
 }

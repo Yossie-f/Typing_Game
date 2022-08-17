@@ -141,7 +141,10 @@ function start(event){
   }else if(state == false && event.key === ' '){
     if(TimeSet.value < 6){
       resetA();
-      alert('ステータスのタイムが みじかいです!! やじるしキー（↑）をおして、５より大きいすうじにしてください。あかいカーソルがはずれてしまったら、Tabキーをおして、カーソルをあわせてください。');
+      backMusic('./sounds/back_music/涼風薫る宵.mp3');
+      back_music.loop = true;
+
+      alert('タイムが みじかいです!! ５より大きいすうじにしてください。');
       TimeSet.focus();
       return;
     }
@@ -344,8 +347,7 @@ window.addEventListener('keyup', e => {
 function resetA(){
   RankContainer.classList.remove("appear");
   back_music.pause();
-  backMusic('./sounds/back_music/涼風薫る宵.mp3');
-  back_music.loop = true;
+  // backMusic('./sounds/back_music/涼風薫る宵.mp3');
   Timer.textContent = '--';
   Subject.textContent = '';
   SubjectD.textContent = '';

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="CSS/status.css">
   <link rel="stylesheet" href="CSS/keyboard.css">
   <link rel="stylesheet" href="CSS/rank.css">
+  <link rel="shortcut icon" href="#">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script type="module" src="./roma-hira.js"></script>
   <script type="module" src="./q_list.js"></script>
@@ -74,9 +75,7 @@
         <p id="success_rate">じょうずさ：</p>
       </div>
       <p><label for="time_set">１. タイムをきめてね</label></p>
-      <p><label for="time_set">　※５よりおおきい</label></p>
-      <p><label for="time_set">　　すうじをいれてね</label></p>
-      <input id="time_set" type="number" value="30" name="time_set">
+      <input id="time_set" type="number" min="10" step="10" value="60" name="time_set">
       <p><label for="mode">２. Alt をおす</label></p>
       <p id="mode" name="mode">おおもじ モード</p>
     </div>

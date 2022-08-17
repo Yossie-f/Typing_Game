@@ -1,8 +1,7 @@
-/* ランク結果の表示 */
 .rank_body{
   position: absolute;
   width: 72%;
-  height: 88%;
+  height: 86%;
   top: 9%;
   right: 10px;
   border: 10px solid blue;
