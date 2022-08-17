@@ -62,7 +62,7 @@ for(var i = 0; i < 10; i++){
 document.getElementById(' ').classList.add("push_me");
 
 
-//バックミュージック選択メソッド
+//バックミュージック再生メソッド
 function backMusic(url){
   back_music = new Audio(url);
   if(m_state == false){
@@ -72,26 +72,25 @@ function backMusic(url){
   return back_music;
 }
 
-backMusic('./sounds/back_music/涼風薫る宵.mp3');
-back_music.loop = true;
-miss_sound = new Audio('./sounds/Cannon01-mp3/Motion-Fracture01-2.mp3');
 
-//Shiftキーで音声のミュートとステートを切り替える
-window.addEventListener('keydown', (e) => {
+/* 音楽, 鳴き声, 文字表示を切り替えるメソッド */
+function switch_btn(e){ //引数eは入力されたキーの値
+  //Shiftキーで音楽を制御
   if(e.key === 'Shift'){
     if(back_music.muted){
-      m_state = true;
-      back_music.muted = false;
+      back_music.muted = false;   //音楽のミュートを解除
+      back_music.play();
       MusicItem.style.backgroundColor = 'crimson';
       MusicState.textContent = 'きく';
+      m_state = true;   //音楽の再生状態を表すための変数
     }else{
-      m_state = false;          //ステートをfalseに
-      back_music.muted = true;  //ミュートをONにする
+      back_music.muted = true;  //ミュートする
       MusicItem.style.backgroundColor = 'gray';
       MusicState.textContent = 'きかない';
+      m_state = false;          //falseで再生されていない状態を表す
     }
   }
-  //Ctflキーで効果音のステート切替
+  //Ctflキーで効果音を制御
   if(e.key === 'Control'){
     if(s_state == false){
       s_state = true;
@@ -105,13 +104,38 @@ window.addEventListener('keydown', (e) => {
       SoundState.textContent = 'きかない';
     }
   }
-});
+  //Altが押されたらモード切り替え
+  if(e.key ==='Alt'){    
+    char_state = !char_state;
+    if(char_state == true){
+      Mode.textContent = 'おおもじ モード';
+      Mode.style.backgroundColor = "rgb(71, 200, 49)";
+    }else{
+      Mode.textContent = 'こもじ モード';
+      Mode.style.backgroundColor = "rgb(49, 132, 200)";
+    }
+    //問題が生成されたいない時や、ゲームが終了したならば表示は行わない
+    if(typeof q_select !== 'undefined' && state == true){
+      //文字の大小をを切り替えて表示する
+      SubjectD.textContent = char_state == true ? q_select.substring(0, q_index).toUpperCase() : q_select.substring(0, q_index);
+      Subject.textContent = char_state == true ? q_select.substring(q_index).toUpperCase() : q_select.substring(q_index);
+    }
+  }
+}
+
+
+/*最初になる音楽を設定
+（デフォルトで再生する設定だとエラーになるので、再生メソッドは使わない）*/
+back_music = new Audio('./sounds/back_music/涼風薫る宵.mp3');
+back_music.loop = true;
+miss_sound = new Audio('./sounds/Cannon01-mp3/Motion-Fracture01-2.mp3');//鳴き声
 
 
 //Gameスタートメソッド
 window.addEventListener('keydown', start);
 function start(event){
-  if(state == true || game_state == true ) {
+  //2つのステートはゲームスタート時にfalse、終了時にtrueとなる
+  if(game_state == true ) { 
     return;
   //スペースキーが押された時にだけスタートする
   }else if(state == false && event.key === ' '){
@@ -125,21 +149,18 @@ function start(event){
       document.getElementById(i).classList.remove("push_me");
     }
     document.getElementById(' ').classList.remove("push_me");
-
     game_state = true;
     resetA();
     resetB();    //全てのカウントの値と表示をリセット
     set_time = TimeSet.value;
     let time = set_time //デクリメント用に制限時間をコピー
-    
-    /*
-    カウント用非同期処理
-    sec:設定時間, count:カウントダウン開始時間
-    */ 
+
+    /* カウント用非同期処理
+       sec:設定時間, count:カウントダウン開始時間 */ 
     function countDown(sec, CD, count, url) { 
       return new Promise(resolve => {
-        let bool = true;  
-        // タイムメーターの起動
+        let bool = true;  //カウントダウンの再生を繰り返さないための変数
+        // タイムメーターを起動（メーターのwidthが変化していく）
         if(state == false){
           $(function(){
             $("#meter").css({
@@ -171,9 +192,8 @@ function start(event){
       });
     };
 
-    let st_countdown;
-
     // バックグラウンドの非同期処理（タイム管理）メソッド
+    let st_countdown;
     async function timeManage () {
       // back_music.pause();
       await countDown(4, st_countdown, 4, './sounds/back_music/Countdown03-2.mp3'); //スタートまでのカウント
@@ -201,22 +221,9 @@ function start(event){
 /* キーが押された時に毎回実行 */
 window.addEventListener('keydown', push_key);
 function push_key(e){
-  //escが押されたらモード切り替え
-  if(e.key ==='Alt'){    
-    char_state = !char_state;
-    if(char_state == true){
-      Mode.textContent = 'おおもじ モード';
-      Mode.style.backgroundColor = "rgb(71, 200, 49)";
-    }else{
-      Mode.textContent = 'こもじ モード';
-      Mode.style.backgroundColor = "rgb(49, 132, 200)";
-    }
-    if(typeof q_select !== 'undefined' && state == true){
-      SubjectD.textContent = char_state == true ? q_select.substring(0, q_index).toUpperCase() : q_select.substring(0, q_index);
-      Subject.textContent = char_state == true ? q_select.substring(q_index).toUpperCase() : q_select.substring(q_index);
-    }
-  }
+  switch_btn(e);
   let key_code = e.key.toLowerCase();
+  //押されたキーが'Alt', 'Shift', 'Control'のいずれかなら処理を切り上げる（入力判定を行わない）
   if(!state || e.key === 'Alt' || e.key === 'Shift' || e.key === 'Control'){
     return;
   } 
