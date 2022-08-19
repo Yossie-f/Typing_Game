@@ -76,50 +76,52 @@ function backMusic(url){
 /* 音楽, 鳴き声, 文字表示を切り替えるメソッド */
 function switch_btn(e){ //引数eは入力されたキーの値
   //Shiftキーで音楽を制御
-  if(e.key === 'Shift'){
-    if(back_music.muted){
-      back_music.muted = false;   //音楽のミュートを解除
-      back_music.play();
-      MusicItem.style.backgroundColor = 'crimson';
-      MusicState.textContent = 'きく';
-      m_state = true;   //音楽の再生状態を表すための変数
-    }else{
-      back_music.muted = true;  //ミュートする
-      MusicItem.style.backgroundColor = 'gray';
-      MusicState.textContent = 'きかない';
-      m_state = false;          //falseで再生されていない状態を表す
-    }
-  }
-  //Ctflキーで効果音を制御
-  if(e.key === 'Control'){
-    if(s_state == false){
-      s_state = true;
-      miss_sound.muted = false;
-      SoundItem.style.backgroundColor = 'dodgerblue';
-      SoundState.textContent = 'きく';
-    }else{
-      s_state = false;
-      miss_sound.muted = true;
-      SoundItem.style.backgroundColor = 'gray';
-      SoundState.textContent = 'きかない';
-    }
-  }
-  //Altが押されたらモード切り替え
-  if(e.key ==='Alt'){    
-    char_state = !char_state;
-    if(char_state == true){
-      Mode.textContent = 'おおもじ モード';
-      Mode.style.backgroundColor = "rgb(71, 200, 49)";
-    }else{
-      Mode.textContent = 'こもじ モード';
-      Mode.style.backgroundColor = "rgb(49, 132, 200)";
-    }
-    //問題が生成されたいない時や、ゲームが終了したならば表示は行わない
-    if(typeof q_select !== 'undefined' && state == true){
-      //文字の大小をを切り替えて表示する
-      SubjectD.textContent = char_state == true ? q_select.substring(0, q_index).toUpperCase() : q_select.substring(0, q_index);
-      Subject.textContent = char_state == true ? q_select.substring(q_index).toUpperCase() : q_select.substring(q_index);
-    }
+  switch (e.key) {
+    case 'Shift':
+      if (back_music.muted) {
+        back_music.muted = false;   //音楽のミュートを解除
+        back_music.play();
+        MusicItem.style.backgroundColor = 'crimson';
+        MusicState.textContent = 'きく';
+        m_state = true;   //音楽の再生状態を表すための変数
+      } else {
+        back_music.muted = true;  //ミュートする
+        MusicItem.style.backgroundColor = 'gray';
+        MusicState.textContent = 'きかない';
+        m_state = false;          //falseで再生されていない状態を表す
+      }
+      break;
+    //Ctrlキーで効果音を制御
+    case 'Control':
+      if (s_state == false) {
+        s_state = true;
+        miss_sound.muted = false;
+        SoundItem.style.backgroundColor = 'dodgerblue';
+        SoundState.textContent = 'きく';
+      } else {
+        s_state = false;
+        miss_sound.muted = true;
+        SoundItem.style.backgroundColor = 'gray';
+        SoundState.textContent = 'きかない';
+      }
+      break;
+    //Altが押されたら文字モード切り替え
+    case 'Alt':
+      char_state = !char_state;
+      if (char_state == true) {
+        Mode.textContent = 'おおもじ モード';
+        Mode.style.backgroundColor = "rgb(71, 200, 49)";
+      } else {
+        Mode.textContent = 'こもじ モード';
+        Mode.style.backgroundColor = "rgb(49, 132, 200)";
+      }
+      //問題が生成されていない時や、ゲームが終了したならば、問題の表示は行わない
+      if (typeof q_select !== 'undefined' && state == true) {
+        //文字の大小をを切り替えて表示する
+        SubjectD.textContent = char_state == true ? q_select.substring(0, q_index).toUpperCase() : q_select.substring(0, q_index);
+        Subject.textContent = char_state == true ? q_select.substring(q_index).toUpperCase() : q_select.substring(q_index);
+      }
+      break;
   }
 }
 
@@ -139,12 +141,19 @@ function start(event){
     return;
   //スペースキーが押された時にだけスタートする
   }else if(state == false && event.key === ' '){
-    if(TimeSet.value < 6){
+    if(TimeSet.value < 10){
       resetA();
       backMusic('./sounds/back_music/涼風薫る宵.mp3');
-      back_music.loop = true;
+      back_music.loop = false;
 
-      alert('タイムが みじかいです!! ５より大きいすうじにしてください。');
+      swal("10びょう より ながいタイムに してください", {
+        content: "input",
+        allowOutsideClick: true,
+        type: "warning", 
+      })
+      .then((value) => {
+        swal(`${value}で はじめます!!`);
+      });
       TimeSet.focus();
       return;
     }
@@ -435,7 +444,7 @@ function finish() {
   RankName.textContent = r2h(speed_rank[0]) + ' ' + '級';
   RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
   //文字表示させる
-  setTimeout(function(){Kana.textContent = 'はんていします・・・'; }, 1000);
+  setTimeout(function(){Kana.textContent = 'はんてい します・・・'; }, 1000);
   setTimeout(function(){Subject.textContent = 'よくできました!!'; }, 1000);
   setTimeout(function(){SubjectD.textContent = ''; }, 1000);
   //ランク判定を表示させる
@@ -447,17 +456,14 @@ function finish() {
   }, 2500);
   // StartKey.textContent = ' SPACEでもういちど';
   //game_stateをfalseにすることで再びスタートメソッドが実行できる
-  setTimeout(function(){ 
+  setTimeout(function () {
     TimeSet.focus();
     game_state = false;
   },3500);
 }
 
 
-
-
-
-
+/* ランク判定メソッド */
 function rankJudge(sht, ms, stm){
   if(sht <= 0){
     ave = 0;
@@ -488,37 +494,37 @@ function rankJudge(sht, ms, stm){
   }else if(ave >= 130){
     spd = ['jakkuusagi', '最高速度：72km']
   }else if(ave >= 120){
-    spd = ['dachou', '走る速さ：70km']
+    spd = ['dachou', '走る 速さ：70km']
   }else if(ave >= 110){
-    spd = ['tomusongazeru', '走る速さ：68km'] 
+    spd = ['tomusongazeru', '走る 速さ：68km'] 
   }else if(ave >= 100){
-    spd = ['rakuda', '走る速さ：65km']
+    spd = ['rakuda', '走る 速さ：65km']
   }else if(ave >= 90){
-    spd = ['tora', '走る速さ：60km']
+    spd = ['tora', '走る 速さ：60km']
   }else if(ave >= 80){
-    spd = ['gurizuri-', '走る速さ：56km']
+    spd = ['gurizuri-', '走る 速さ：56km']
   }else if(ave >= 70){
-    spd = ['kirinn', '走るはやさ：51km']
+    spd = ['kirinn', '走る はやさ：51km']
   }else if(ave >= 60){
-    spd = ['afurikazou', '走るはやさ：40km']
+    spd = ['afurikazou', '走る はやさ：40km']
   }else if(ave >= 50){
-    spd = ['burakkumanba', '走るはやさ：25km']
+    spd = ['burakkumanba', '走る はやさ：25km']
   }else if(ave >= 40){
-    spd = ['suzumebachi', 'とぶはやさ：22km']
+    spd = ['suzumebachi', 'とぶ はやさ：22km']
   }else if(ave >= 35){
-    spd = ['komodoootokage', 'はしるはやさ：20km']
+    spd = ['komodoootokage', 'はしる はやさ：20km']
   }else if(ave >= 30){
-    spd = ['niwatori', 'はしるはやさ：14km']
+    spd = ['niwatori', 'はしる はやさ：14km']
   }else if(ave >= 25){
-    spd = ['jentu-penginn', 'はしるはやさ：10km']
+    spd = ['jentu-penginn', 'はしる はやさ：10km']
   }else if(ave >= 20){
-    spd = ['hanmyou', 'はしるはやさ：8km']
+    spd = ['hanmyou', 'はしる はやさ：8km']
   }else if(ave >= 15){
-    spd = ['zougame', 'あるくはやさ：3km']
+    spd = ['zougame', 'あるく はやさ：3km']
   }else if(ave >= 10){
-    spd = ['namakemono', 'あるくはやさ：0.2km']
+    spd = ['namakemono', 'あるく はやさ：0.2km']
   }else{
-    spd = ['ryuuguusakurahitode', 'うごくはやさ：0.05km']
+    spd = ['ryuuguusakurahitode', 'うごく はやさ：0.05km']
   }
   return spd;
 }

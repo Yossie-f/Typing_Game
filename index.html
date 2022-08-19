@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="CSS/rank.css">
   <link rel="shortcut icon" href="#">
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="module" src="./roma-hira.js"></script>
   <script type="module" src="./q_list.js"></script>
 </head>
@@ -75,9 +76,9 @@
         <p id="success_rate">じょうずさ：</p>
       </div>
       <p><label for="time_set">１. タイムをきめてね</label></p>
-      <input id="time_set" type="number" min="10" step="10" value="60" name="time_set">
+      <input id="time_set" type="number" min="10" step="10" value="60" name="time_set" required>
       <p><label for="mode">２. Alt をおす</label></p>
-      <p id="mode" name="mode">おおもじ モード</p>
+      <p id="mode" name="mode"><ruby>大<rt>おお</rt>もじ モード</ruby></p>
     </div>
 
     <!-- 効果音の表示 -->
@@ -90,7 +91,7 @@
     </div>
     <!-- 音楽の表示 -->
     <div class="music_container">
-      <p class="label">４. Shift をおす</p>
+      <p class="label">４. Shift を押す</p>
       <div id="music_item" class="music_box">
         <p>おんがく :</p>
         <p id="music_state">きかない</p>
