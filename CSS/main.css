@@ -59,14 +59,14 @@
   background-color: seagreen;
   color: rgb(255, 232, 80);
   border-radius: 5px;
-  animation: flash 3.0s linear infinite;
+  animation: flash 4.0s linear infinite;
 }
 @keyframes flash {
   0%,100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.2;
   }
 }
 

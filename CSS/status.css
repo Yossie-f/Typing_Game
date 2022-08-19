@@ -76,6 +76,7 @@ input{
 }
 input:focus{
   outline:solid 5px crimson;
+  background-color: yellow
 }
 
 
