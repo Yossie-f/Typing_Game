@@ -67,6 +67,7 @@ input{
   display: block;
   width: 180px;
   margin: auto;
+  margin-top: 5px;
   margin-bottom: 10px;
   border-radius: 8px;
   text-align: center;
@@ -75,8 +76,15 @@ input{
   color: crimson;
 }
 input:focus{
-  outline:solid 5px crimson;
-  background-color: yellow
+  outline:solid 10px crimson;
+  background-color: yellow;
+  font-size: 35px;
+  animation: flash 0.5s ease 2 alternate;
+}
+@keyframes flash {
+  50% {
+    opacity: 0;
+  }
 }
 
 

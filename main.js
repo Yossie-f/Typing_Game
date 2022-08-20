@@ -144,17 +144,34 @@ function start(event){
     if(TimeSet.value < 10){
       resetA();
       backMusic('./sounds/back_music/涼風薫る宵.mp3');
-      back_music.loop = false;
+      back_music.loop = true;
 
-      swal("10びょう より ながいタイムに してください", {
-        content: "input",
-        allowOutsideClick: true,
-        type: "warning", 
+      swal("タイムは１０よりおおきくしてね。 ６０ でいい？", {
+        buttons: {
+          cancel: "いやだ",
+          music: {
+            text: "おんがく ききたい",
+            value: "music",
+          },
+          defeat: "うん",
+        },
       })
       .then((value) => {
-        swal(`${value}で はじめます!!`);
+        switch (value) {
+          case "defeat":
+            swal("６０ にしました。SPACE で はじめてね！");
+            TimeSet.value = 60;
+            break;
+          case "music":
+            swal("SHIFT と かいてある キー を おしてみて！");
+            TimeSet.value = 60;
+            break;
+          default:
+            swal("タイム をきめてね。 マウスでえらんで、↑ か ↓のキーを おすと かわるよ。");
+            TimeSet.value = 60;
+            TimeSet.focus();
+        }
       });
-      TimeSet.focus();
       return;
     }
     for(var i = 0; i < 10; i++){
@@ -441,7 +458,7 @@ function finish() {
   speed_rank = rankJudge(shot_count, miss_count, set_time);
   rankImage.style.backgroundImage = 'url(./image/rank_image/' + speed_rank[0] + '.jpg)';
   document.getElementById('average').textContent =  Math.round(ave/60*10)/10;
-  RankName.textContent = r2h(speed_rank[0]) + ' ' + '級';
+  RankName.textContent = r2h(speed_rank[0]) ;
   RankData.textContent = r2h(speed_rank[0]) + 'の' + speed_rank[1];
   //文字表示させる
   setTimeout(function(){Kana.textContent = 'はんてい します・・・'; }, 1000);

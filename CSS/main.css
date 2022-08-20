@@ -1,7 +1,7 @@
 /* ベース */
 .base_container{
   position: relative;
-  width: 1000px;
+  width: 1030px;
   height: fit-content;
   background: url("./../image/back_image/background.png") bottom / cover;
   margin: auto;
@@ -16,6 +16,7 @@
 
 /* タイムの表示 */
 .time_container{
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 .TIME{
@@ -26,6 +27,7 @@
 #timer{
   width: fit-content;
   margin: auto;
+  margin-top: 5px;
   font-size: 40px;
   color: yellow;
   text-shadow: 0 0 10px rgb(20, 140, 220),
