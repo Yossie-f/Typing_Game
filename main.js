@@ -176,15 +176,15 @@ function start(event){
         if(state == false){
           $(function(){
             $("#meter").css({
-              'transition' : 'width ' + sec +  's linear 0ms',
-              'width' : '100%' ,
+              'transition' : 'all ' + sec +  's linear 0ms',
+              'width' : '100%' , 'background-color' : 'yellow',
             });
           });
         }else if(state == true){
           $(function(){
             $("#meter").css({
-              'transition' : 'width ' + sec +  's linear 0ms',
-              'width' : '0%' ,
+              'transition' : 'all ' + sec +  's linear 0ms',
+              'width' : '0%' , 'background-color' : 'crimson',
             });
           });
         }

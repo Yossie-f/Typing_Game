@@ -116,7 +116,7 @@
 /* タイムメーター */
 #gage{
   width: 450px;
-  height: 10px;
+  height: 12px;
   margin: 0 auto;
   border: solid seagreen 3px;
   border-radius: 5px;
@@ -125,7 +125,7 @@
 #meter{
   width: 0%;
   height: 100%;
-  background-color: yellow;
+  background-color: crimson;
   opacity: 0.8;
 }
 
