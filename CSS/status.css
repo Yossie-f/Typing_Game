@@ -49,6 +49,17 @@
 }
 #success_rate{
 }
+
+button{
+  border-radius: 20px;
+  background-color: violet;
+  width: 182px;
+  height: 44px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 20px 10px 20px;
+}
+
 #mode{
   border: solid black 3px;
   border-radius: 20px;

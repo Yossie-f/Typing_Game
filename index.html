@@ -77,13 +77,15 @@
       </div>
       <p><label for="time_set">１. タイムをきめてね！</label></p>
       <input id="time_set" type="number" min="10" step="10" value="60" name="time_set" required>
-      <p><label for="mode">２. <ruby>ALT <rt>オルトキー </rt> をおす</ruby></label></p>
+      <p><label for="q_mode">２.クリックしてね↓</label></p>
+      <p><button id="q_mode" name="q_mode">かんたんモード</button></p>
+      <p><label for="mode">３. <ruby>ALT <rt>オルトキー </rt> をおす</ruby></label></p>
       <p id="mode" name="mode">おおもじ モード</p>
     </div>
 
     <!-- 効果音の表示 -->
     <div class="sound_container">
-      <p class="label">３. <ruby>CTRL<rt>コントロール</rt></ruby> をおす</p>
+      <p class="label">４. <ruby>CTRL<rt>コントロール</rt></ruby> をおす</p>
       <div id="sound_item" class="music_box">
         <p>なきごえ :</p>
         <p id="sound_state">きかない</p>
@@ -91,7 +93,7 @@
     </div>
     <!-- 音楽の表示 -->
     <div class="music_container">
-      <p class="label">４. <ruby>SHIFT<rt>シフトキー</rt></ruby> をおす</p>
+      <p class="label">５. <ruby>SHIFT<rt>シフトキー</rt></ruby> をおす</p>
       <div id="music_item" class="music_box">
         <p>おんがく :</p>
         <p id="music_state">きかない</p>

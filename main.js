@@ -1,4 +1,5 @@
 import Q_list from "./q_list.js" 
+import Q_list2 from "./q_list2.js"
 import r2h from './roma-hira.js'
 // メイン部分
 const StartKey = document.getElementById('start_key');  //スタートの表示
@@ -15,6 +16,7 @@ const ConsecutiveSuccess = document.getElementById('consecutive_success'); //連
 const SuccessRate = document.getElementById('success_rate'); //成功率
 const MaxSuccess = document.getElementById('max-success'); //最大連続成功数
 const Mode = document.getElementById('mode'); //入力モード
+const QMode = document.getElementById('q_mode');//難易度
 const TimeSet = document.getElementById('time_set');  //制限時間設定欄
 // 音声
 const MusicItem = document.getElementById('music_item');  
@@ -32,6 +34,7 @@ const RankData = document.getElementById('rank_data');  //ランク関連情報
 let q_select;       //ランダムに選ばれた問題を格納する
 let q_length = 0;   //選ばれた問題の文字数
 let q_index;        //入力している問題文の文字位置を表す
+let q_mode = 1;
 
 let set_time = 20;        //制限時間
 let count = 0;            //単語の正解数をカウント
@@ -61,6 +64,25 @@ for(var i = 0; i < 10; i++){
 }
 document.getElementById(' ').classList.add("push_me");
 
+/* クリックして難易度設定 */
+$('#q_mode').click(function () {
+  q_mode++;
+  if (q_mode > 2) {
+    q_mode = 1;
+  }
+  switch (q_mode) {
+    case 1:
+      $(function () {
+        $('#q_mode').text('かんたん モード');
+        $('#q_mode').css({'background-color':'violet'});
+      });
+      break;
+    case 2:
+      $('#q_mode').text('ふつう モード');
+      $('#q_mode').css({ 'background-color': 'yellow'});
+      break;
+  }
+});
 
 //バックミュージック再生メソッド
 function backMusic(url){
@@ -407,14 +429,20 @@ function resetB(){
 
 //問題の初期化
 function initQ() {
-  const rnd = Math.floor(Math.random() * Q_list.length);  //問題の選出（ランダム）
-  q_select = Q_list[rnd];       //選ばれた問題を格納
+  const rnd = Math.floor(Math.random() * (q_mode == 1 ? Q_list.length : Q_list2.length));  //問題の選出（ランダム）
+  // console.log(rnd);
+  q_select = q_mode==1 ? Q_list[rnd] : Q_list2[rnd];       //選ばれた問題を格納
+  // console.log(q_select);
   q_length = q_select.length;   //選ばれた問題の文字数を格納
   q_index = 0;
   SubjectD.textContent = '';  //入力済み欄の表示を消す
   Subject.textContent = char_state == true ? q_select.toUpperCase() : q_select;   //問題を表示
   Kana.textContent = r2h(q_select); //問題のカナを表示
-  ImageContainer.style.backgroundImage = 'url(./image/' + q_select + '.jpg)';
+  if (q_mode == 1) { 
+    ImageContainer.style.backgroundImage = 'url(./image/easy-mode/' + q_select + '.jpg)';
+  } else {
+    ImageContainer.style.backgroundImage = 'url(./image/' + q_select + '.jpg)';
+  }
   document.getElementById(q_select.charAt(q_index)).classList.add("push_me");   //次に押すキーの色を変える
   // Form.input.focus();   //フォーカスを入力欄にセット
   // Form.input.value = '';  //入力欄を空にする
