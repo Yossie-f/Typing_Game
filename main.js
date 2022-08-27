@@ -408,6 +408,7 @@ function resetB(){
   back_music.pause();
   backMusic('./sounds/back_music/Onoma-Inspiration08-3(Low-Delay).mp3');
   TimeSet.blur(); //フォーカスを外す
+  QMode.blur();
   Timer.textContent = '4';
   msct = 0;          
   count = 0;         //入力成功した単語数のカウントを０に
